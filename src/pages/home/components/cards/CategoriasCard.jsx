@@ -13,7 +13,7 @@ const CategoriasCard = ({ categories }) => {
             >
                 <div className="flex items-center justify-between mb-6 font-poppins">
                     <div>
-                        <h3 className="text-2xl font-bold">Categorias destacadas ✨</h3>
+                        <h3 className="text-2xl font-bold">Categorias destacadas</h3>
                     </div>
                     <motion.button
                         whileHover={{ x: 5 }}

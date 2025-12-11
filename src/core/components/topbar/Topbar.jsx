@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiHeart, FiUser, FiSearch, FiMenu } from 'react-icons/fi';
-import { BsGenderFemale, BsGenderMale } from 'react-icons/bs';
+import { FaMapMarkerAlt } from "react-icons/fa";
 import CentralShopLogo from '../../../assets/centralshoplogo.d08fd0e3.webp';
 
 const Topbar = ({ onMenuClick }) => {
@@ -23,33 +23,9 @@ const Topbar = ({ onMenuClick }) => {
             <img src={CentralShopLogo} alt="Central Shop" className="w-50 mt-2" />
           </div>
 
-          <div className="hidden md:flex items-center space-x-2 bg-orange-200 rounded-full p-1">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setActiveTab('women')}
-              className={`px-4 lg:px-6 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
-                activeTab === 'women'
-                  ? 'bg-orange-50 text-orange-800'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              <BsGenderFemale className="w-4 h-4" />
-              <span>Women</span>
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setActiveTab('men')}
-              className={`px-4 lg:px-6 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
-                activeTab === 'men'
-                  ? 'bg-orange-50 text-orange-800'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              <BsGenderMale className="w-4 h-4" />
-              <span>Men</span>
-            </motion.button>
+          <div className="hidden md:flex items-center space-x-2 bg-orange-200 rounded-full p-3 font-poppins">
+            <FaMapMarkerAlt className="w-5 h-5 text-orange-800" />
+            <h1 className="text-orange-800">Agrega tu direccion</h1>
           </div>
 
           <div className="hidden lg:flex flex-1 max-w-md mx-8 font-poppins">

@@ -12,7 +12,7 @@ const MarcasCard = ({ marcas }) => {
                 className="mb-8"
             >
                 <div className="flex items-center justify-between mb-6 font-poppins">
-                    <h3 className="text-2xl font-bold">Marcas destacadas ✨</h3>
+                    <h3 className="text-2xl font-bold">Marcas destacadas</h3>
                     <motion.button
                         whileHover={{ x: 5 }}
                         className="text-orange-600 font-medium hover:text-orange-700 flex items-center gap-1"
