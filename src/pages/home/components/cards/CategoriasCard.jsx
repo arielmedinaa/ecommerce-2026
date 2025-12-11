@@ -19,7 +19,7 @@ const CategoriasCard = ({ categories }) => {
                         whileHover={{ x: 5 }}
                         className="text-orange-600 font-medium hover:text-orange-700 flex items-center gap-1"
                     >
-                        View more <FiChevronDown className="rotate-[-90deg]" />
+                        View more <FiChevronDown className="-rotate-90" />
                     </motion.button>
                 </div>
 
