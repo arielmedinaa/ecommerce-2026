@@ -11,7 +11,7 @@ const Topbar = ({ onMenuClick }) => {
   return (
     <header className="sticky top-0 z-50 bg-orange-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-12 mt-2">
           <button
             onClick={onMenuClick}
             className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
