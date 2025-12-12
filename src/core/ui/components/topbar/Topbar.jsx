@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiHeart, FiUser, FiSearch, FiMenu } from 'react-icons/fi';
 import { FaMapMarkerAlt } from "react-icons/fa";
-import CentralShopLogo from '../../../assets/centralshoplogo.d08fd0e3.webp';
+import CentralShopLogo from '@assets/images/logo/centralshoplogo.d08fd0e3.webp';
 
 const Topbar = ({ onMenuClick }) => {
   const [activeTab, setActiveTab] = useState('women');

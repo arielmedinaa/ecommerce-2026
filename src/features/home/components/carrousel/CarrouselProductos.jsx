@@ -96,10 +96,9 @@ const CarrouselProductos = () => {
     };
 
     return (
-        <div className="relative w-full mt-8 mb-20">
-            <h2 className="text-2xl font-bold text-gray-800 font-poppins">Productos Destacados</h2>
-
-            <div className="relative">
+        <div className="relative w-full h-full">
+            <h2 className="text-2xl font-bold mb-2 font-poppins text-end text-orange-400">Productos destacados</h2>
+            <div className="relative h-full">
                 <button
                     onClick={scrollLeft}
                     className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
@@ -110,47 +109,54 @@ const CarrouselProductos = () => {
 
                 <div
                     id="product-carousel"
-                    className="flex overflow-x-auto scroll-smooth space-x-6 py-4 scrollbar-hide"
+                    className="flex h-full overflow-x-auto scroll-smooth space-x-6 py-4 scrollbar-hide items-stretch"
                 >
                     {products.map((product) => (
                         <div
                             key={product.id}
-                            className="shrink-0 w-72 bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 border border-gray-100 p-4 flex flex-col h-[400px]"
+                            className="shrink-0 w-72 bg-orange-50 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col h-[460px]"
                         >
-                            <div className="relative h-[200vh] bg-orange-300 overflow-hidden rounded-2xl">
-                                <button className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-gray-100">
-                                    <FiHeart className="w-5 h-5 text-gray-600" />
-                                </button>
-                            </div>
-
-                            <div className="grow p-4">
-                                <h3 className="font-semibold text-gray-800 text-lg mb-1">{product.name}</h3>
-                                <div className="flex flex-wrap gap-2 my-3">
-                                    {product.sizes.map((size) => (
-                                        <button
-                                            key={size}
-                                            onClick={() => toggleSize(product.id, size)}
-                                            className={`px-3 py-1 text-sm rounded-full border ${selectedSizes[product.id] === size
-                                                    ? 'bg-orange-500 text-white border-orange-500'
-                                                    : 'bg-white text-gray-600 border-gray-300 hover:border-orange-300'
-                                                } transition-colors`}
-                                        >
-                                            {size}
-                                        </button>
-                                    ))}
-                                </div>
-                                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                                    {product.description}
-                                </p>
-                            </div>
-
-                            <div className="mt-auto pt-4 border-t border-gray-100">
-                                <div className="flex items-center justify-between">
-                                    <span className="text-2xl font-bold text-gray-800">${product.price}</span>
-                                    <button className="flex items-center gap-1 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">
-                                        <FiShoppingCart className="w-5 h-5" />
-                                        <span className="text-sm font-medium">Añadir</span>
+                            <div className='p-3'>
+                                <div className="relative h-48 bg-orange-200 overflow-hidden rounded-2xl">
+                                    <button className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 z-10">
+                                        <FiHeart className="w-5 h-5 text-gray-600" />
                                     </button>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col grow p-4">
+                                <div className="space-y-2">
+                                    <h3 className="font-semibold text-gray-800 text-lg line-clamp-1 font-poppins">{product.name}</h3>
+
+                                    <div className="flex flex-wrap gap-2 max-h-20 overflow-hidden">
+                                        {product.sizes.map((size) => (
+                                            <button
+                                                key={size}
+                                                onClick={() => toggleSize(product.id, size)}
+                                                className={`px-3 py-1 text-sm rounded-full border ${selectedSizes[product.id] === size
+                                                        ? 'bg-orange-500 text-white border-orange-500'
+                                                        : 'bg-white text-gray-600 border-gray-300 hover:border-orange-300'
+                                                    } transition-colors`}
+                                            >
+                                                {size}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    <p className="text-gray-600 text-sm line-clamp-2">
+                                        {product.description}
+                                    </p>
+                                </div>
+
+                                {/* Price and Add to Cart - Pushed to bottom */}
+                                <div className="mt-auto pt-4 border-t border-gray-100">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-2xl font-bold text-gray-800">${product.price}</span>
+                                        <button className="flex items-center gap-1 bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600 transition-colors">
+                                            <FiShoppingCart className="w-5 h-5" />
+                                            <span className="text-sm font-medium">Añadir</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
