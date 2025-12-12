@@ -27,7 +27,7 @@ const Promotions = () => {
       id: 3,
       title: 'Comparte una lista de deseos para las fiestas',
       buttonText: 'Envía la tuya',
-      bgColor: 'bg-linear-to-r from-slate-800 to-slate-600',
+      bgColor: 'bg-linear-to-r from-orange-700 to-yellow-600',
       textColor: 'text-white',
       image: '👶',
       fullWidth: false
