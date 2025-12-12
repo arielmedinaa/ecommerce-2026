@@ -3,6 +3,8 @@ import HeroCarousel from './components/hero/HeroCarrousel';
 import CarrouselProductos from './components/carrousel/CarrouselProductos';
 import CategoriasCard from './components/cards/CategoriasCard';
 import MarcasCard from './components/cards/MarcasCard';
+import CreditCard from './components/cards/CreditCard';
+import Promotions from './components/cards/Promotions';
 
 import Electrodomesticos from '@assets/images/categories/electrodomesticos.png';
 import Automotor from '@assets/images/products/motor3D.png';
@@ -91,9 +93,12 @@ const Home = () => {
         <MarcasCard marcas={marcas} />
       </div>
 
-      {/* <div className="w-full mt-20">
-        <CreditCard />
-      </div> */}
+      <div className="w-full mt-20">
+        <div className="flex flex-col lg:flex-row gap-6">
+          <CreditCard />
+          <Promotions />
+        </div>
+      </div>
     </div>
   );
 };
