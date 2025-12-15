@@ -21,39 +21,50 @@ const MarcasCard = ({ marcas }) => {
                     </motion.button>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 font-poppins text-white">
-                    {marcas.map((marca, index) => (
-                        <motion.div
-                            key={marca.name}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4 }}
-                            className="group relative rounded-2xl p-4 cursor-pointer shadow-md hover:shadow-lg transition-all overflow-hidden h-[630px]"
-                        >
-                            <div className="absolute inset-0 w-full h-full overflow-hidden">
-                                <div className="w-full h-full transition-transform duration-500 ease-in-out group-hover:scale-110">
-                                    <img
-                                        src={marca.img}
-                                        alt={marca.name}
-                                        className={`${marca.color} w-full h-full object-cover`}
-                                    />
-                                </div>
-                                <div className="absolute inset-0 bg-black/30" />
-                            </div>
+                <div className="relative">
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+                        <div 
+                            className="w-[9000px] h-60 blur-3xl rounded-full" 
+                            style={{ 
+                                background: 'radial-gradient(ellipse, rgba(249, 116, 22, 0.89) 0%, rgba(251, 146, 60, 0.92) 50%, transparent 100%)' 
+                            }} 
+                        />
+                    </div>
 
-                            <div className="relative z-10 h-full flex flex-col">
-                                <div className="mt-auto">
-                                    <h4 className="text-white text-xl font-bold">{marca.name}</h4>
-                                    <button
-                                        className="mt-4 px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-full hover:bg-orange-700 transition-colors"
-                                        onClick={() => console.log(`Ver ${marca.name}`)}
-                                    >
-                                        Ver más
-                                    </button>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 font-poppins text-white relative z-10">
+                        {marcas.map((marca, index) => (
+                            <motion.div
+                                key={marca.name}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4 }}
+                                className="group relative rounded-2xl p-4 cursor-pointer shadow-md hover:shadow-lg transition-all overflow-hidden h-[630px]"
+                            >
+                                <div className="absolute inset-0 w-full h-full overflow-hidden">
+                                    <div className="w-full h-full transition-transform duration-500 ease-in-out group-hover:scale-110">
+                                        <img
+                                            src={marca.img}
+                                            alt={marca.name}
+                                            className={`${marca.color} w-full h-full object-cover`}
+                                        />
+                                    </div>
+                                    <div className="absolute inset-0 bg-black/30" />
                                 </div>
-                            </div>
-                        </motion.div>
-                    ))}
+
+                                <div className="relative z-10 h-full flex flex-col">
+                                    <div className="mt-auto">
+                                        <h4 className="text-white text-xl font-bold">{marca.name}</h4>
+                                        <button
+                                            className="mt-4 px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-full hover:bg-orange-700 transition-colors"
+                                            onClick={() => console.log(`Ver ${marca.name}`)}
+                                        >
+                                            Ver más
+                                        </button>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             </motion.div>
         </>

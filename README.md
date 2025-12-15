@@ -41,6 +41,19 @@ src/
     └── home/                # Página de inicio
 ```
 
+## Componentes principales del proyecto
+Todos los componentes principales se encuentran en la carpeta src/features/... Y solo se encargan de renderizar el html, las logicas de negocio y logicas de funciones se manejan por custom hooks, en la carpeta `src/features/{nombre de la pagina que se trabajo}/hooks`.
+
+- `Home`: Componente principal que muestra la página de inicio.
+- `Catalogos`: Componente principal que muestra la página de catalogos.
+- `Carrito`: Componente principal que muestra la página de carrito.
+- `Auth`: Componente principal que muestra la página de autenticación.
+
+## Patron de diseño para el desarrollo
+
+El proyecto sigue un patron de diseño para el desarrollo de componentes y caracteristicas. La lógica de negocio se manejan por custom hooks,
+ejemplo: - `useHookSIide`. Este hook se encarga de manejar la logica de los HeroCarrousel, lo que hace que el componente HeroCarrousel no se encargue de sus funciones de logica de negocio, solo se encarga de renderizar el html. Pues este mismo patron de diseño se puede aplicar a cualquier componente principal del proyecto.
+
 ## 🛠️ Configuración de Alias
 
 Se han configurado los siguientes alias para importaciones absolutas:

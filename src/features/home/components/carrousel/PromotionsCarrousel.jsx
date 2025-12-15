@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { FiChevronLeft, FiChevronRight, FiHeart, FiShoppingCart } from 'react-icons/fi';
 
 const products = [
@@ -76,8 +76,7 @@ const products = [
     }
 ];
 
-
-const CarrouselProductos = () => {
+const PromotionsCarrousel = () => {
     const [selectedSizes, setSelectedSizes] = useState({});
 
     const scrollLeft = () => {
@@ -94,10 +93,9 @@ const CarrouselProductos = () => {
             [productId]: prev[productId] === size ? null : size
         }));
     };
-
     return (
-        <div className="relative w-full h-full">
-            <h2 className="text-2xl font-bold mb-2 font-poppins text-end text-orange-400">Productos destacados</h2>
+        <div className="relative w-full h-full mt-10">
+            <h2 className="text-2xl font-bold mb-2 font-poppins text-start text-orange-400">Promos destacados</h2>
             <div className="relative h-full">
                 <button
                     onClick={scrollLeft}
@@ -134,8 +132,8 @@ const CarrouselProductos = () => {
                                                 key={size}
                                                 onClick={() => toggleSize(product.id, size)}
                                                 className={`px-3 py-1 text-sm rounded-full border ${selectedSizes[product.id] === size
-                                                        ? 'bg-orange-500 text-white border-orange-500'
-                                                        : 'bg-white text-gray-600 border-gray-300 hover:border-orange-300'
+                                                    ? 'bg-orange-500 text-white border-orange-500'
+                                                    : 'bg-white text-gray-600 border-gray-300 hover:border-orange-300'
                                                     } transition-colors`}
                                             >
                                                 {size}
@@ -147,6 +145,7 @@ const CarrouselProductos = () => {
                                         {product.description}
                                     </p>
                                 </div>
+
                                 <div className="mt-auto pt-4 border-t border-gray-100">
                                     <div className="flex items-center justify-between">
                                         <span className="text-2xl font-bold text-gray-800">${product.price}</span>
@@ -170,7 +169,7 @@ const CarrouselProductos = () => {
                 </button>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default CarrouselProductos;
+export default PromotionsCarrousel

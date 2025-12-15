@@ -5,6 +5,7 @@ import CategoriasCard from './components/cards/CategoriasCard';
 import MarcasCard from './components/cards/MarcasCard';
 import CreditCard from './components/cards/CreditCard';
 import Promotions from './components/cards/Promotions';
+import PromotionsCarrousel from './components/carrousel/PromotionsCarrousel';
 
 import Electrodomesticos from '@assets/images/categories/electrodomesticos.png';
 import Automotor from '@assets/images/products/motor3D.png';
@@ -91,6 +92,11 @@ const Home = () => {
       
       <div className="w-full mt-20">
         <MarcasCard marcas={marcas} />
+      </div>
+
+      <div className='w-full mt-20'>
+        <CarrouselProductos products={products} />
+        <PromotionsCarrousel />
       </div>
 
       <div className="w-full mt-20">
