@@ -1,34 +1,48 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react';
 
-const useHookSIide = (slides) => {
+const useHookSIide = (initialSlides = []) => {
+  const [slides, setSlides] = useState(initialSlides);
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Reset current slide when slides change
+  useEffect(() => {
+    setCurrentSlide(0);
+  }, [slides.length]);
+
   const nextSlide = useCallback(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, [slides.length]);
+    if (slides.length === 0) return;
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  }, [slides.length]);
+
+  const prevSlide = useCallback(() => {
+    if (slides.length === 0) return;
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  }, [slides.length]);
+
+  const goToSlide = useCallback((index) => {
+    if (slides.length === 0) return;
+    setCurrentSlide(Math.max(0, Math.min(index, slides.length - 1)));
+  }, [slides.length]);
   
-    useEffect(() => {
-      const interval = setInterval(() => {
-        nextSlide();
-      }, 5000);
-  
-      return () => clearInterval(interval);
-    }, [nextSlide]);
-  
-    const prevSlide = () => {
-      setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-    };
-  
-    const goToSlide = (index) => {
-      setCurrentSlide(index);
-    };
+  // Auto-advance slides
+  useEffect(() => {
+    if (slides.length <= 1) return;
     
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [nextSlide, slides.length]);
+
   return {
     currentSlide,
     nextSlide,
     prevSlide,
-    goToSlide
-  }
+    goToSlide,
+    setSlides,
+    currentSlideData: slides[currentSlide] || {}
+  };
 }
 
 export default useHookSIide

@@ -8,7 +8,7 @@ import Hero1Video from '@assets/videos/backgroundVideo.mp4';
 import Hero2Image from '@assets/images/backgrounds/centralShopNavidad.webp';
 import Hero3Image from '@assets/images/backgrounds/centralShopEntrega.webp';
 
-const HeroCarousel = ({ isVisible = true }) => {
+const HeroCarousel = ({ isVisible = true, banners }) => {
   const slides = [
     {
       id: 1,
@@ -98,7 +98,7 @@ const HeroCarousel = ({ isVisible = true }) => {
                     </video>
                   ) : index === 1 ? (
                     <img
-                      src={Hero2Image}
+                      src={banners[0]?.imageUrl}
                       alt="NavidadCentralShop"
                       className="w-full h-full object-cover"
                     />
