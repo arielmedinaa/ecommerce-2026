@@ -1,6 +1,13 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import PropTypes from 'prop-types';
+import { useRef, useEffect, useCallback } from 'react';
+import gsap from 'gsap';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+import { Draggable } from 'gsap/Draggable';
+
+// Register GSAP plugins
+gsap.registerPlugin(MotionPathPlugin, Draggable);
 
 import useHookSIide from '../../hooks/useHookSIide';
 
@@ -9,11 +16,15 @@ import Hero2Image from '@assets/images/backgrounds/centralShopNavidad.webp';
 import Hero3Image from '@assets/images/backgrounds/centralShopEntrega.webp';
 
 const HeroCarousel = ({ isVisible = true, banners }) => {
+  const emojiContainerRef = useRef(null);
+  const emojisRef = useRef([]);
+  const prevSlideRef = useRef(0);
+
   const slides = [
     {
       id: 1,
       title: "DISCOUNTS UP TO 50% FROM",
-      subtitle: "ANSWEAR CLUB ORIGINAL GOODS",
+      subtitle: "ANSWER CLUB ORIGINAL GOODS",
       description: "Luxury meets ultimate sitting comfort",
       promocode: "10030",
       bgColor: "from-orange-500 via-orange-600 to-amber-600",
@@ -35,10 +46,118 @@ const HeroCarousel = ({ isVisible = true, banners }) => {
       description: "Get access to premium discounts",
       promocode: "MEMBER10",
       bgColor: "from-orange-600 via-amber-600 to-orange-700",
-      image: "🎁"
+      image: "🎁",
+      emojis: ["🎉", "✨", "🎊", "💫", "🌟", "🎈", "🎁", "🎀", "💥", "🔥", "🎇", "🎆"]
     }
   ];
+
   const { currentSlide, nextSlide, prevSlide, goToSlide } = useHookSIide(slides);
+
+  const createEmojis = useCallback(() => {
+    const container = emojiContainerRef.current;
+    if (!container) return;
+
+    // Clear existing emojis
+    container.innerHTML = '';
+    emojisRef.current = [];
+
+    const emojis = [];
+    const { width, height } = container.getBoundingClientRect();
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    // Create emoji elements
+    for (let i = 0; i < 30; i++) {
+      const emoji = document.createElement('div');
+      emoji.className = 'emoji absolute text-2xl md:text-3xl select-none pointer-events-none';
+      emoji.textContent = slides[2].emojis[Math.floor(Math.random() * slides[2].emojis.length)];
+
+      // Set initial position at center
+      gsap.set(emoji, {
+        x: centerX,
+        y: centerY,
+        scale: 0,
+        opacity: 0,
+        rotation: Math.random() * 360,
+        transformOrigin: 'center center',
+        z: 0
+      });
+
+      // Calculate random final position
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 50 + Math.random() * 150;
+      const finalX = centerX + Math.cos(angle) * distance;
+      const finalY = centerY + Math.sin(angle) * distance;
+
+      // Store animation targets
+      emoji._gsap = {
+        finalX,
+        finalY,
+        scale: 0.5 + Math.random() * 1.5,
+        rotation: Math.random() * 360
+      };
+
+      container.appendChild(emoji);
+      emojis.push(emoji);
+    }
+
+    emojisRef.current = emojis;
+  }, []);
+
+  const animateEmojis = useCallback(() => {
+    if (!emojisRef.current.length) return;
+
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    // Animate emojis out from center
+    emojisRef.current.forEach(emoji => {
+      const { finalX, finalY, scale, rotation } = emoji._gsap;
+      
+      tl.to(emoji, {
+        x: finalX,
+        y: finalY,
+        scale: scale,
+        opacity: 0.8,
+        rotation: rotation,
+        duration: 1.5,
+        ease: 'elastic.out(1, 0.5)'
+      }, Math.random() * 0.5); // Stagger start times
+
+      // Add floating animation
+      gsap.to(emoji, {
+        y: '+=10',
+        x: '+=5',
+        rotation: '+=5',
+        duration: 2 + Math.random() * 3,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      });
+    });
+
+    return tl;
+  }, []);
+
+  useEffect(() => {
+    // Only run the animation when the third slide is active
+    if (currentSlide === 2) {
+      if (prevSlideRef.current !== 2) {
+        // First time entering the third slide
+        createEmojis();
+        const timer = setTimeout(() => {
+          animateEmojis();
+        }, 100);
+        return () => clearTimeout(timer);
+      }
+    } else if (prevSlideRef.current === 2) {
+      // When leaving the third slide, clean up emojis
+      if (emojiContainerRef.current) {
+        emojiContainerRef.current.innerHTML = '';
+        emojisRef.current = [];
+      }
+    }
+    prevSlideRef.current = currentSlide;
+  }, [currentSlide, animateEmojis, createEmojis]);
 
   return (
     <motion.div
@@ -103,11 +222,17 @@ const HeroCarousel = ({ isVisible = true, banners }) => {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <img
-                      src={Hero3Image}
-                      alt="EntregaCentralShop"
-                      className="w-full h-full object-cover"
-                    />
+                    <div className="relative w-full h-full">
+                      {/* <img
+                        src={Hero3Image}
+                        alt="EntregaCentralShop"
+                        className="w-full h-full object-cover"
+                      /> */}
+                      <div 
+                        ref={emojiContainerRef}
+                        className="absolute inset-0 w-full h-full overflow-hidden"
+                      />
+                    </div>
                   )}
                 </div>
               </motion.div>
@@ -148,6 +273,19 @@ const HeroCarousel = ({ isVisible = true, banners }) => {
     </motion.div>
   );
 };
+
+// Add CSS for 3D effect
+const style = document.createElement('style');
+style.textContent = `
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .emoji {
+    will-change: transform, opacity;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+`;
+document.head.appendChild(style);
 
 HeroCarousel.propTypes = {
   isVisible: PropTypes.bool
