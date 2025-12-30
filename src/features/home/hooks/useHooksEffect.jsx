@@ -9,7 +9,7 @@ const useHooksEffect = (homeState, isCall = false) => {
 
     const fetchEffect = useCallback(async () => {
         try {
-            const res = await fetch('http://localhost:3002/ecommerce/home/data', {
+            const res = await fetch('http://localhost:3100/api/content/home', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

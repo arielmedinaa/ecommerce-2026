@@ -7,7 +7,7 @@ const CategoriasCard = ({ categories }) => {
     return (
         <>
             <div className="w-full lg:w-2/5">
-                <h2 className="text-2xl font-bold mb-6 font-poppins text-orange-400">Categorías destacadas</h2>
+                <h2 className="text-2xl font-bold mb-6 font-poppins">Categorías destacadas</h2>
                 <div className="grid grid-cols-1 gap-4">
                     {categories.slice(0, 1).map((category, index) => (
                         <motion.div

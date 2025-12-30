@@ -95,7 +95,7 @@ const PromotionsCarrousel = () => {
     };
     return (
         <div className="relative w-full h-full mt-10">
-            <h2 className="text-2xl font-bold mb-2 font-poppins text-start text-orange-400">Promos destacados</h2>
+            <h2 className="text-2xl font-bold mb-2 font-poppins text-start">Promos destacados</h2>
             <div className="relative h-full">
                 <button
                     onClick={scrollLeft}

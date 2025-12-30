@@ -40,8 +40,6 @@ const Home = () => {
     { id: 4, name: 'Yellow Set', price: '$59.99', image: '👗', color: 'bg-amber-100' },
   ];
 
-  console.log(home.banners);
-
   return (
     <div className="min-h-screen bg-orange-100 p-4 sm:p-6 lg:p-10">
       <div className="min-h-[calc(100vh-4rem)]" ref={home.heroRef}>
@@ -63,7 +61,7 @@ const Home = () => {
       </div>
 
       <div className='w-full mt-20'>
-        <CarrouselProductos products={products} />
+        {/* <CarrouselProductos products={products} /> */}
         <PromotionsCarrousel />
       </div>
 

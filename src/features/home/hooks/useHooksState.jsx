@@ -3,7 +3,6 @@ import { globalFilter } from '@core/shared/constants/globalConst'
 
 const useHooksState = () => {
   const [filter, setFilter] = useState(globalFilter);
-
   const [homeData, setHomeData] = useState({
     banners: [],
     productos: [],

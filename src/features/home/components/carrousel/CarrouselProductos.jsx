@@ -1,7 +1,39 @@
 import { useState } from 'react';
 import { FiChevronLeft, FiChevronRight, FiHeart, FiShoppingCart } from 'react-icons/fi';
+import CarrouselSkeleton from './CarrouselSkeleton';
+import useCartStore from '../../../../core/shared/stores/cart.store';
 
-const CarrouselProductos = ({ products = [] }) => {
+const prepareCartItem = (product, size) => ({
+    productId: product._id,
+    name: product.nombre,
+    price: product.precio,
+    image: product.imagenes?.[0]?.url?.["1000"],
+    size: size || null,
+    quantity: 1,
+    timestamp: Date.now()
+});
+
+const saveCartItem = (item) => {
+    const existingItem = JSON.parse(localStorage.getItem('pendingCartItem'));
+
+    if (existingItem && existingItem.productId === item.productId &&
+        existingItem.size === item.size) {
+        return;
+    }
+
+    const cartItem = {
+        ...item,
+        status: 'pending'
+    };
+    localStorage.setItem('pendingCartItem', JSON.stringify(cartItem));
+};
+
+const removeCartItem = () => {
+    localStorage.removeItem('pendingCartItem');
+};
+
+const CarrouselProductos = ({ products = [], isLoading = false }) => {
+    const addToCart = useCartStore(state => state.addItem);
     const [selectedSizes, setSelectedSizes] = useState({});
 
     const scrollLeft = () => {
@@ -21,7 +53,7 @@ const CarrouselProductos = ({ products = [] }) => {
 
     return (
         <div className="relative w-full h-full">
-            <h2 className="text-2xl font-bold mb-2 font-poppins text-end text-orange-400">Productos destacados</h2>
+            <h2 className="text-2xl font-bold mb-2 font-poppins text-end">Productos destacados</h2>
             <div className="relative h-full">
                 <button
                     onClick={scrollLeft}
@@ -35,7 +67,9 @@ const CarrouselProductos = ({ products = [] }) => {
                     id="product-carousel"
                     className="flex h-full overflow-x-auto scroll-smooth space-x-6 py-4 scrollbar-hide items-stretch"
                 >
-                    {products?.map((product) => (
+                    {isLoading ? (
+                        [...Array(4)].map((_, i) => <CarrouselSkeleton key={`skeleton-${i}`} />)
+                    ) : products?.length > 0 ? products.map((product) => (
                         <div
                             key={product._id}
                             className="shrink-0 w-72 bg-orange-50 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col h-[460px]"
@@ -78,7 +112,22 @@ const CarrouselProductos = ({ products = [] }) => {
                                 <div className="mt-auto pt-4 border-t border-gray-100">
                                     <div className="flex items-center justify-between">
                                         <span className="text-2xl font-bold text-gray-800">${product.precio}</span>
-                                        <button className="flex items-center gap-1 bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600 transition-colors">
+                                        <button
+                                            className="flex items-center gap-1 bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600 transition-colors"
+                                            onMouseEnter={() => {
+                                                const selectedSize = selectedSizes[product._id];
+                                                const cartItem = prepareCartItem(product, selectedSize);
+                                                saveCartItem(cartItem);
+                                            }}
+                                            onMouseLeave={removeCartItem}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                const selectedSize = selectedSizes[product._id];
+                                                const cartItem = prepareCartItem(product, selectedSize);
+                                                addToCart(cartItem);
+                                                removeCartItem();
+                                            }}
+                                        >
                                             <FiShoppingCart className="w-5 h-5" />
                                             <span className="text-sm font-medium">Añadir</span>
                                         </button>
@@ -86,7 +135,9 @@ const CarrouselProductos = ({ products = [] }) => {
                                 </div>
                             </div>
                         </div>
-                    ))}
+                    )) : (
+                        [...Array(4)].map((_, i) => <CarrouselSkeleton key={`skeleton-${i}`} />)
+                    )}
                 </div>
 
                 <button
