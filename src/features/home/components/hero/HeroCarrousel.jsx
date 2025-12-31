@@ -223,15 +223,10 @@ const HeroCarousel = ({ isVisible = true, banners }) => {
                     />
                   ) : (
                     <div className="relative w-full h-full">
-                      {/* <img
-                        src={Hero3Image}
-                        alt="EntregaCentralShop"
-                        className="w-full h-full object-cover"
-                      /> */}
-                      <div 
+                      {/* <div 
                         ref={emojiContainerRef}
                         className="absolute inset-0 w-full h-full overflow-hidden"
-                      />
+                      /> */}
                     </div>
                   )}
                 </div>

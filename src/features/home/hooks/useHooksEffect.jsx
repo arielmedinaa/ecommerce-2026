@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { getWithFilter, getData } from '@core/infrastructure/api/api.general';
+import useCartStore from '../../../core/shared/stores/cart.store';
 
 const useHooksEffect = (homeState, isCall = false) => {
     const [isHeroVisible, setIsHeroVisible] = useState(true);
@@ -6,32 +8,24 @@ const useHooksEffect = (homeState, isCall = false) => {
     const prevScrollY = useRef(window.scrollY);
     const scrollThreshold = 500;
     const isScrollingDown = useRef(false);
-
+    const setCart = useCartStore(state => state.setCart);
     const fetchEffect = useCallback(async () => {
         try {
-            const res = await fetch('http://localhost:3100/api/content/home', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(homeState.filter),
-            });
-
-            if (!res.ok) {
-                throw new Error('Error al obtener los datos');
+            const [responseHome, responseCarrito] = await Promise.all([
+                getWithFilter('content/home', homeState.filter),
+                getData('cart')
+            ]);
+            if (responseHome?.status === 200) {
+                homeState.setHomeData(responseHome.data);
             }
-
-            const data = await res.json();
-
-            if (data.status === 200 && data.data) {
-                //console.log(data.data);
-                homeState.setHomeData(data.data);
+            if (responseCarrito?.data) {
+                console.log(responseCarrito?.data)
+                setCart(responseCarrito.data);
             }
         } catch (error) {
             console.error('Error en fetchEffect:', error);
-
         }
-    }, [homeState.filter]);
+    }, [homeState.filter, setCart]);
 
     useEffect(() => {
         const handleScroll = () => {

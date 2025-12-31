@@ -4,23 +4,19 @@ import CarrouselSkeleton from './CarrouselSkeleton';
 import useCartStore from '../../../../core/shared/stores/cart.store';
 
 const prepareCartItem = (product, size) => ({
-    productId: product._id,
-    name: product.nombre,
-    price: product.precio,
-    image: product.imagenes?.[0]?.url?.["1000"],
-    size: size || null,
-    quantity: 1,
-    timestamp: Date.now()
+    codigo: product.codigo,
+    nombre: product.nombre,
+    precio: product.precio,
+    imagen: product.imagenes?.[0]?.url?.["1000"],
+    cantidad: 1,
+    ruta: product.ruta
 });
 
 const saveCartItem = (item) => {
     const existingItem = JSON.parse(localStorage.getItem('pendingCartItem'));
-
-    if (existingItem && existingItem.productId === item.productId &&
-        existingItem.size === item.size) {
+    if (existingItem && existingItem.codigo === item.codigo) {
         return;
     }
-
     const cartItem = {
         ...item,
         status: 'pending'
@@ -71,17 +67,21 @@ const CarrouselProductos = ({ products = [], isLoading = false }) => {
                         [...Array(4)].map((_, i) => <CarrouselSkeleton key={`skeleton-${i}`} />)
                     ) : products?.length > 0 ? products.map((product) => (
                         <div
-                            key={product._id}
-                            className="shrink-0 w-72 bg-orange-50 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col h-[460px]"
+                            key={product.codigo}
+                            className="shrink-0 w-72 bg-orange-50 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 flex flex-col h-[460px]"
                         >
                             <div className='p-3'>
-                                <div className="relative h-48 bg-orange-200 overflow-hidden rounded-2xl">
-                                    <button className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 z-10">
+                                <div className="relative h-48 bg-orange-50 overflow-hidden rounded-2xl flex items-center justify-center">
+                                    <button className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 z-10 transition-colors">
                                         <FiHeart className="w-5 h-5 text-gray-600" />
                                     </button>
 
-                                    <div className="p-3">
-                                        <img src={product.imagenes?.[0]?.url?.["1000"]} alt={product.nombre} className="w-full h-full object-cover" />
+                                    <div className="w-full h-full p-3 flex items-center justify-center bg-orange-200">
+                                        <img
+                                            src={`https://csdigitalizacion.nyc3.cdn.digitaloceanspaces.com/ecommerce/store/${product.imagenes?.[0]?.url?.["1000"]}`}
+                                            alt={product.nombre}
+                                            className="max-w-full max-h-full w-auto h-auto object-contain transition-all duration-300 transform hover:-translate-y-1"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -115,14 +115,14 @@ const CarrouselProductos = ({ products = [], isLoading = false }) => {
                                         <button
                                             className="flex items-center gap-1 bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600 transition-colors"
                                             onMouseEnter={() => {
-                                                const selectedSize = selectedSizes[product._id];
+                                                const selectedSize = selectedSizes[product.codigo];
                                                 const cartItem = prepareCartItem(product, selectedSize);
                                                 saveCartItem(cartItem);
                                             }}
                                             onMouseLeave={removeCartItem}
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                const selectedSize = selectedSizes[product._id];
+                                                const selectedSize = selectedSizes[product.codigo];
                                                 const cartItem = prepareCartItem(product, selectedSize);
                                                 addToCart(cartItem);
                                                 removeCartItem();

@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiHeart, FiUser, FiSearch, FiMenu, FiShoppingCart } from 'react-icons/fi';
 import { FaMapMarkerAlt } from "react-icons/fa";
+import useCartStore from '../../../shared/stores/cart.store';
 
-const Topbar = ({ onMenuClick }) => {
+const Topbar = ({ onMenuClick, onCartClick }) => {
+  const cartCount = useCartStore(state => state.getContadoCount());
   const [searchValue, setSearchValue] = useState('');
 
   return (
@@ -50,11 +52,18 @@ const Topbar = ({ onMenuClick }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="p-3 hover:bg-orange-200 rounded-full transition-colors relative"
-              aria-label="Mi cuenta"
+              aria-label="Carrito de compras"
+              onClick={onCartClick}
             >
               <FiShoppingCart className="w-6 h-6 text-gray-600" />
-              <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
             </motion.button>
+            
+
             <div className="hidden sm:flex items-center justify-center w-10 h-10 bg-orange-200 rounded-full text-base font-medium text-orange-700 ml-2">
               UA
             </div>
