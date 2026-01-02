@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX, FiPlus, FiMinus, FiShoppingBag } from 'react-icons/fi';
 import useCartStore from '@core/shared/stores/cart.store';
+import { formatGuarani } from '@core/shared/utils/formatDecimal';
 
 const CartSidebar = ({ isOpen, onClose }) => {
   const { updateQuantity, removeItem, getTotalPrice, getTotalItems, getCartContado, addItem } = useCartStore();
@@ -102,7 +103,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                             {item.nombre}
                           </h3>
                           <p className="text-base font-bold text-gray-900">
-                            ${(item.precio * item.cantidad).toFixed(2)}
+                            {formatGuarani(item.precio * item.cantidad)}
                           </p>
                         </div>
 
@@ -149,16 +150,16 @@ const CartSidebar = ({ isOpen, onClose }) => {
                 <div className="space-y-2 mb-4">
                   <div className="flex justify-between text-sm text-gray-600">
                     <span>Subtotal</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>{formatGuarani(total)}</span>
                   </div>
                   <div className="flex justify-between text-sm text-gray-600">
                     <span>Envío</span>
                     <span className="text-green-600 font-medium">Gratis</span>
                   </div>
                   <div className="h-px bg-gray-200"></div>
-                  <div className="flex justify-between text-lg font-bold text-gray-900">
-                    <span>Total</span>
-                    <span className="text-orange-600">${total.toFixed(2)}</span>
+                  <div className="flex justify-between font-bold text-gray-900">
+                    <span className="text-xl">Total</span>
+                    <span className="text-orange-600 text-2xl">{formatGuarani(total)}</span>
                   </div>
                 </div>
 

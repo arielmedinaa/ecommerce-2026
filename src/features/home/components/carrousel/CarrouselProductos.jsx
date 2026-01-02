@@ -193,6 +193,16 @@ const CarrouselProductos = ({ products = [], isLoading = false }) => {
                                     <p className="text-gray-600 text-sm line-clamp-2">
                                         {product.descripcion?.toUpperCase()}
                                     </p>
+                                    <div className="flex flex-wrap gap-2 mt-2">
+                                        {product.caracteristicas?.slice(0, 3).map((c, index) => (
+                                            <span
+                                                key={index}
+                                                className="inline-flex items-center text-xs font-medium border border-orange-500 px-2 py-1 rounded-full font-poppins text-orange-500"
+                                            >
+                                                {c.tipo}
+                                            </span>
+                                        ))}
+                                    </div>
                                 </div>
                                 <div className="mt-auto pt-4 border-t border-gray-100">
                                     <div className="flex items-center justify-between">
@@ -213,7 +223,6 @@ const CarrouselProductos = ({ products = [], isLoading = false }) => {
                                             }}
                                         >
                                             <FiShoppingCart className="w-5 h-5" />
-                                            <span className="text-sm font-medium">Añadir</span>
                                         </button>
                                     </div>
                                 </div>

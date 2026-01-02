@@ -1,12 +1,71 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FiHeart, FiUser, FiSearch, FiMenu, FiShoppingCart } from 'react-icons/fi';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiHeart, FiUser, FiSearch, FiMenu, FiShoppingCart, FiX } from 'react-icons/fi';
 import { FaMapMarkerAlt } from "react-icons/fa";
 import useCartStore from '../../../shared/stores/cart.store';
+import { getWithFilter } from '@core/infrastructure/api/api.general';
+import { formatGuarani } from '@core/shared/utils/formatDecimal';
 
 const Topbar = ({ onMenuClick, onCartClick }) => {
   const cartCount = useCartStore(state => state.getContadoCount());
   const [searchValue, setSearchValue] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const searchRef = useRef(null);
+  const debounceTimeout = useRef(null);
+  const debounceDelay = 550;
+
+  const search = useCallback((e) => {
+    const { value } = e.target;
+    setSearchValue(value);
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
+
+    if (value.trim().length > 2) {
+      setIsSearching(true);
+      debounceTimeout.current = setTimeout(() => {
+        apiSearch(value);
+      }, debounceDelay);
+    } else {
+      setSearchResults([]);
+      setIsSearching(false);
+    }
+  }, []);
+
+  const apiSearch = async (query) => {
+    try {
+      const response = await getWithFilter('products/searchProducts', { search: query });
+      setSearchResults(response.data || []);
+      setIsDropdownOpen(true);
+    } catch (error) {
+      console.error('Error searching products:', error);
+      setSearchResults([]);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const clearSearch = () => {
+    setSearchValue('');
+    setSearchResults([]);
+    setIsDropdownOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
 
   return (
     <header className="sticky top-0 z-50 bg-orange-100">
@@ -26,15 +85,73 @@ const Topbar = ({ onMenuClick, onCartClick }) => {
           </div>
 
           <div className="hidden lg:flex flex-1 max-w-2xl mx-8 font-poppins">
-            <div className="relative w-full">
-              <input
-                type="text"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                placeholder="Buscar productos, marcas y más..."
-                className="w-full px-6 py-3 pl-6 pr-14 bg-transparent border border-orange-700 rounded-full focus:outline-none text-base text-orange-700 placeholder-orange-700"
-              />
-              <FiSearch className="absolute right-6 top-1/2 transform -translate-y-1/2 text-orange-700 w-6 h-6" />
+            <div className="relative w-full" ref={searchRef}>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={searchValue}
+                  onChange={search}
+                  onFocus={() => searchResults.length > 0 && setIsDropdownOpen(true)}
+                  placeholder="Buscar productos, marcas y más..."
+                  className="w-full px-6 py-3 pl-6 pr-14 bg-transparent border border-orange-700 rounded-full focus:outline-none text-base text-orange-700 placeholder-orange-700"
+                />
+                {searchValue ? (
+                  <button
+                    onClick={clearSearch}
+                    className="absolute right-12 top-1/2 transform -translate-y-1/2 text-orange-700 hover:text-orange-800 transition-colors"
+                  >
+                    <FiX className="w-5 h-5" />
+                  </button>
+                ) : null}
+                {isSearching ? (
+                  <div className="absolute right-6 top-1/2 transform -translate-y-1/2 w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <FiSearch className="absolute right-6 top-1/2 transform -translate-y-1/2 text-orange-700 w-6 h-6" />
+                )}
+              </div>
+
+              <AnimatePresence>
+                {isDropdownOpen && searchResults.length > 0 && (
+                  <motion.div
+                    className="absolute z-50 mt-2 w-full bg-linear-to-br from-orange-200 via-orange-100 to-orange-200 backdrop-blur-md rounded-2xl shadow-lg border border-orange-200 max-h-96 overflow-y-auto"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="divide-y divide-orange-300">
+                      {searchResults.slice(0, 5).map((product) => (
+                        <div
+                          key={product._id}
+                          className="flex items-center p-3 hover:bg-orange-200 transition-colors cursor-pointer"
+                          onClick={() => setIsDropdownOpen(false)}
+                        >
+                          <div className="shrink-0 w-12 h-12 bg-white rounded-lg overflow-hidden p-1">
+                            {product.imagenes?.[0]?.url?.['100'] && (
+                              <img
+                                src={`https://csdigitalizacion.nyc3.cdn.digitaloceanspaces.com/ecommerce/store/${product.imagenes?.[0]?.url?.["1000"]}`}
+                                alt={product.nombre}
+                                className="w-full h-full object-cover"
+                              />
+                            )}
+                          </div>
+                          <div className="ml-3">
+                            <p className="text-sm font-medium text-gray-900 line-clamp-1">{product.nombre}</p>
+                            <p className="text-sm text-orange-600 font-semibold">
+                              {`Gs ${formatGuarani(product.precio)}`}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                      {searchResults.length > 5 && (
+                        <div className="p-3 text-center text-sm text-orange-600 font-medium">
+                          {searchResults.length - 5} más resultados
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 
@@ -62,7 +179,7 @@ const Topbar = ({ onMenuClick, onCartClick }) => {
                 </span>
               )}
             </motion.button>
-            
+
 
             <div className="hidden sm:flex items-center justify-center w-10 h-10 bg-orange-200 rounded-full text-base font-medium text-orange-700 ml-2">
               UA

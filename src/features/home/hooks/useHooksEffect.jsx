@@ -3,7 +3,6 @@ import { getWithFilter, getData } from '@core/infrastructure/api/api.general';
 import { cacheService } from '@core/infrastructure/cache';
 import useCartStore from '@core/shared/stores/cart.store';
 import usePromotionsStore from '@core/shared/stores/promotions.store';
-import { useInView } from 'react-intersection-observer';
 
 const CACHE_KEYS = {
     HOME: 'home_data',
