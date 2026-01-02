@@ -1,11 +1,11 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiX, FiTrash2, FiPlus, FiMinus, FiShoppingBag } from 'react-icons/fi';
-import useCartStore from '../../../../core/shared/stores/cart.store';
+import { FiX, FiPlus, FiMinus, FiShoppingBag } from 'react-icons/fi';
+import useCartStore from '@core/shared/stores/cart.store';
 
 const CartSidebar = ({ isOpen, onClose }) => {
-  const { updateQuantity, removeItem, getTotalPrice, getTotalItems, getCartContado } = useCartStore();
+  const { updateQuantity, removeItem, getTotalPrice, getTotalItems, getCartContado, addItem } = useCartStore();
   const { contado: contadoItems = [] } = getCartContado();
-  const items = contadoItems[0]?.articulos?.contado;
+  const items = contadoItems;
   const total = getTotalPrice();
   const totalItems = getTotalItems();
 
@@ -83,11 +83,10 @@ const CartSidebar = ({ isOpen, onClose }) => {
                       className="bg-white rounded-xl shadow-sm p-3 border border-gray-100"
                     >
                       <div className="flex items-center gap-3">
-                        {/* Image */}
                         <div className="relative w-16 h-16 bg-gray-100 rounded-lg overflow-hidden shrink-0">
                           {item.imagen ? (
                             <img
-                              src={item.imagen}
+                              src={`https://csdigitalizacion.nyc3.cdn.digitaloceanspaces.com/ecommerce/store/${item.imagen}`}
                               alt={item.nombre}
                               className="w-full h-full object-cover"
                             />
@@ -98,7 +97,6 @@ const CartSidebar = ({ isOpen, onClose }) => {
                           )}
                         </div>
 
-                        {/* Content */}
                         <div className="flex-1 min-w-0">
                           <h3 className="font-medium text-gray-900 text-sm mb-0.5">
                             {item.nombre}
@@ -108,10 +106,9 @@ const CartSidebar = ({ isOpen, onClose }) => {
                           </p>
                         </div>
 
-                        {/* Quantity Controls */}
                         <div className="flex flex-col items-center gap-1 shrink-0">
                           <button
-                            onClick={() => updateQuantity(item.id, item.cantidad + 1)}
+                            onClick={() => addItem({ ...item, cantidad: 1 })}
                             className="w-7 h-7 flex items-center justify-center rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
                             aria-label="Aumentar cantidad"
                           >
@@ -166,7 +163,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                 </div>
 
                 <button
-                  className="w-full bg-linear-to-r from-orange-500 to-orange-600 text-white py-3.5 rounded-xl font-semibold hover:from-orange-600 hover:to-orange-700 active:scale-[0.98] transition-all shadow-lg shadow-orange-500/30"
+                  className="w-full bg-linear-to-r from-orange-500 to-orange-600 text-white py-3.5 rounded-full font-semibold hover:from-orange-600 hover:to-orange-700 active:scale-[0.98] transition-all shadow-lg"
                   onClick={() => {
                     console.log('Proceder al pago');
                   }}

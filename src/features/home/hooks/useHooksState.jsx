@@ -10,6 +10,8 @@ const useHooksState = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [lastUpdated, setLastUpdated] = useState(Date.now());
+
   return {
     filter,
     setFilter,
@@ -18,8 +20,10 @@ const useHooksState = () => {
     loading,
     setLoading,
     error,
-    setError
-  }
-}
+    setError,
+    lastUpdated,
+    setLastUpdated
+  };
+};
 
-export default useHooksState
+export default useHooksState;

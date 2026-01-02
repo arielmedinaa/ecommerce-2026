@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FiChevronLeft, FiChevronRight, FiHeart, FiShoppingCart } from 'react-icons/fi';
 import CarrouselSkeleton from './CarrouselSkeleton';
-import useCartStore from '../../../../core/shared/stores/cart.store';
+import useCartStore from '@core/shared/stores/cart.store';
+import { removeBackgroundImage, blobToDataURL } from '@core/shared/utils/imageUtils';
+import { formatGuarani } from '@core/shared/utils/formatDecimal';
+import usePromotionsStore from '@core/shared/stores/promotions.store';
 
 const prepareCartItem = (product, size) => ({
     codigo: product.codigo,
@@ -29,6 +32,82 @@ const removeCartItem = () => {
 };
 
 const CarrouselProductos = ({ products = [], isLoading = false }) => {
+    const [processedImages, setProcessedImages] = useState({});
+    const [processing, setProcessing] = useState({});
+    const { fetchPromotions } = usePromotionsStore();
+    const hasFetched = useRef(false);
+    const carouselRef = useRef(null);
+
+    useEffect(() => {
+        const processImages = async () => {
+            if (!products?.length) return;
+            for (const product of products) {
+                const imageUrl = `https://csdigitalizacion.nyc3.cdn.digitaloceanspaces.com/ecommerce/store/${product.imagenes?.[0]?.url?.["1000"]}`;
+                const cacheKey = `${product.codigo}-${product.imagenes?.[0]?.url?.["1000"]}`;
+
+                if (processedImages[cacheKey] || processing[cacheKey]) continue;
+
+                try {
+                    setProcessing(prev => ({ ...prev, [cacheKey]: true }));
+                    const cachedImage = localStorage.getItem(`processed_${cacheKey}`);
+                    if (cachedImage) {
+                        setProcessedImages(prev => ({
+                            ...prev,
+                            [cacheKey]: cachedImage
+                        }));
+                        continue;
+                    }
+
+                    const blob = await removeBackgroundImage(imageUrl);
+                    const dataUrl = await blobToDataURL(blob);
+
+                    localStorage.setItem(`processed_${cacheKey}`, dataUrl);
+
+                    setProcessedImages(prev => ({
+                        ...prev,
+                        [cacheKey]: dataUrl
+                    }));
+                } catch (error) {
+                    console.error(`Error processing image for product ${product.codigo}:`, error);
+                    setProcessedImages(prev => ({
+                        ...prev,
+                        [cacheKey]: imageUrl
+                    }));
+                } finally {
+                    setProcessing(prev => ({ ...prev, [cacheKey]: false }));
+                }
+            }
+        };
+
+        processImages();
+    }, [products]);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && !hasFetched.current) {
+                    console.log('Cargando productos destacados');
+                    fetchPromotions();
+                    hasFetched.current = true;
+                    observer.disconnect();
+                }
+            },
+            {
+                root: null,
+                rootMargin: '200%',
+                threshold: 0.01
+            }
+        );
+        if (carouselRef.current) {
+            observer.observe(carouselRef.current);
+        }
+        return () => {
+            if (carouselRef.current) {
+                observer.disconnect();
+            }
+        };
+    }, [fetchPromotions]);
+
     const addToCart = useCartStore(state => state.addItem);
     const [selectedSizes, setSelectedSizes] = useState({});
 
@@ -78,9 +157,15 @@ const CarrouselProductos = ({ products = [], isLoading = false }) => {
 
                                     <div className="w-full h-full p-3 flex items-center justify-center bg-orange-200">
                                         <img
-                                            src={`https://csdigitalizacion.nyc3.cdn.digitaloceanspaces.com/ecommerce/store/${product.imagenes?.[0]?.url?.["1000"]}`}
+                                            src={processedImages[`${product.codigo}-${product.imagenes?.[0]?.url?.["1000"]}`] ||
+                                                `https://csdigitalizacion.nyc3.cdn.digitaloceanspaces.com/ecommerce/store/${product.imagenes?.[0]?.url?.["1000"]}`}
                                             alt={product.nombre}
-                                            className="max-w-full max-h-full w-auto h-auto object-contain transition-all duration-300 transform hover:-translate-y-1"
+                                            className="max-w-full max-h-full w-auto h-auto object-contain transition-all duration-300 transform hover:scale-105"
+                                            onError={(e) => {
+                                                if (e.target.src !== `https://csdigitalizacion.nyc3.cdn.digitaloceanspaces.com/ecommerce/store/${product.imagenes?.[0]?.url?.["1000"]}`) {
+                                                    e.target.src = `https://csdigitalizacion.nyc3.cdn.digitaloceanspaces.com/ecommerce/store/${product.imagenes?.[0]?.url?.["1000"]}`;
+                                                }
+                                            }}
                                         />
                                     </div>
                                 </div>
@@ -111,9 +196,8 @@ const CarrouselProductos = ({ products = [], isLoading = false }) => {
                                 </div>
                                 <div className="mt-auto pt-4 border-t border-gray-100">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-2xl font-bold text-gray-800">${product.precio}</span>
-                                        <button
-                                            className="flex items-center gap-1 bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600 transition-colors"
+                                        <span className="text-2xl font-bold text-gray-800">G$ {formatGuarani(product.precio)}</span>
+                                        <button className="flex items-center gap-1 bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600 transition-colors"
                                             onMouseEnter={() => {
                                                 const selectedSize = selectedSizes[product.codigo];
                                                 const cartItem = prepareCartItem(product, selectedSize);

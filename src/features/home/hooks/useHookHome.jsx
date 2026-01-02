@@ -3,41 +3,32 @@ import useHooksEffect from './useHooksEffect';
 import useHookSlide from './useHookSIide';
 import useHooksState from './useHooksState';
 
-const useHookHome = () => {
+const useHookHome = (loadRef, view) => {
   const homeState = useHooksState();
-  const homeEffect = useHooksEffect(homeState);
+  const homeEffect = useHooksEffect(homeState, true, loadRef, view);
   const homeSlide = useHookSlide(homeState);
   
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const loadData = useCallback(async () => {
+  const refetch = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
-      await homeEffect.fetchEffect();
+      homeState.setLastUpdated(Date.now());
     } catch (err) {
-      console.error('Error loading data:', err);
-      setError(err.message || 'Error al cargar los datos');
+      console.error('Error in refetch:', err);
+      setError(err.message || 'Error al actualizar los datos');
     } finally {
       setIsLoading(false);
     }
-  }, []);
-
-  useEffect(() => {
-    loadData();
-  }, [loadData]);
-
-  const refetch = useCallback(() => {
-    return loadData();
-  }, [loadData]);
+  }, [homeState]);
 
   return {
     ...homeState.homeData,
     loading: isLoading,
     error,
     refetch,
-    fetchEffect: homeEffect.fetchEffect,
     ...homeSlide,
     heroRef: homeEffect.heroRef,
     isHeroVisible: homeEffect.isHeroVisible,
