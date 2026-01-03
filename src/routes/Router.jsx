@@ -1,20 +1,21 @@
-import { useAuth } from '../core/context/AuthProvider';
-import AppLayout from '../core/layout/AppLayout';
-//import LoginPage from '../pages/LoginPage';
-import Home from "@features/home/Home";
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import AppLayout from '@core/layout/AppLayout';
+import { appRoutes } from './index.routes';
 
-const Router = () => {
-  const { isAuthenticated } = useAuth();
-
-//   if (!isAuthenticated) {
-//     return <LoginPage />;
-//   }
-
+const AppRouter = () => {
   return (
-    <AppLayout>
-      <Home />
-    </AppLayout>
+    <Router>
+      <Routes>
+        {appRoutes.map((route, index) => (
+          <Route
+            key={index}
+            path={route.path}
+            element={<AppLayout>{route.element}</AppLayout>}
+          />
+        ))}
+      </Routes>
+    </Router>
   );
 };
 
-export default Router;
+export default AppRouter;

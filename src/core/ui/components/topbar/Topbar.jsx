@@ -2,12 +2,19 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiHeart, FiUser, FiSearch, FiMenu, FiShoppingCart, FiX } from 'react-icons/fi';
 import { FaMapMarkerAlt } from "react-icons/fa";
-import useCartStore from '../../../shared/stores/cart.store';
+
+import useCartStore from '@core/shared/stores/cart.store';
+import useProductStore from '@core/shared/stores/product.store';
+
 import { getWithFilter } from '@core/infrastructure/api/api.general';
 import { formatGuarani } from '@core/shared/utils/formatDecimal';
+import { useNavigate } from 'react-router';
 
 const Topbar = ({ onMenuClick, onCartClick }) => {
   const cartCount = useCartStore(state => state.getContadoCount());
+  const setProduct = useProductStore(state => state.setProduct);
+  const navigate = useNavigate();
+
   const [searchValue, setSearchValue] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -124,7 +131,11 @@ const Topbar = ({ onMenuClick, onCartClick }) => {
                         <div
                           key={product._id}
                           className="flex items-center p-3 hover:bg-orange-200 transition-colors cursor-pointer"
-                          onClick={() => setIsDropdownOpen(false)}
+                          onClick={() => {
+                            setProduct(product);
+                            setIsDropdownOpen(false);
+                            navigate(`/catalogo`);
+                          }}
                         >
                           <div className="shrink-0 w-12 h-12 bg-white rounded-lg overflow-hidden p-1">
                             {product.imagenes?.[0]?.url?.['100'] && (

@@ -1,6 +1,5 @@
 import { create } from "zustand";
 
-// Helpers para acceder y actualizar el array contado
 function getContado(state) {
   return state.cart.articulos.contado;
 }
