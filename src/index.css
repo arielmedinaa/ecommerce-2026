@@ -9,3 +9,19 @@
 ::-webkit-scrollbar {
     display: none;
 }
+
+.bg-orange-1 {
+  background-color: #f18f50;
+}
+
+.bg-orange-2 {
+  background-color: #f5b388;
+}
+
+.text-color-orange-1 {
+  color: #fad9c3;
+}
+
+.text-color-orange-2 {
+  color: #f18f50;
+}

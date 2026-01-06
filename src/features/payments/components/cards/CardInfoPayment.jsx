@@ -5,12 +5,12 @@ const CardInfoPayment = () => {
     const [selectedMethod, setSelectedMethod] = useState('debito');
 
     return (
-        <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-xl h-full">
+        <div className="bg-orange-1 rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-xl h-full">
             <Stepper step={1} />
 
-            <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6 font-poppins">Detalles de Pagos</h2>
+            <h2 className="text-xl md:text-2xl text-color-orange-1 mb-4 md:mb-6 font-poppins">Detalles de Pagos</h2>
 
-            <p className="text-gray-600 text-xs md:text-sm mb-2 md:mb-3 opacity-90">Selecciona el método de pago</p>
+            <p className="text-color-orange-1 text-xs md:text-sm mb-2 md:mb-3 opacity-90 font-poppins">Selecciona el método de pago</p>
             <div className="flex gap-2 md:gap-3 mb-4 md:mb-6">
                 <button
                     onClick={() => setSelectedMethod('pagopar')}
@@ -44,23 +44,23 @@ const CardInfoPayment = () => {
                 </button>
             </div>
 
-            <p className="text-gray-600 text-xs md:text-sm mb-2 md:mb-3 opacity-90">Informacion de tarjeta</p>
+            <p className="text-color-orange-1 text-xs md:text-sm mb-2 md:mb-3 opacity-90 font-poppins">Informacion de tarjeta</p>
             <div className="space-y-2 md:space-y-3 mb-4 md:mb-6">
                 <input
                     type="text"
                     placeholder="****************96868768"
-                    className="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-lg bg-transparent border-2 border-white border-opacity-50 text-gray-800 placeholder-gray-800 placeholder-opacity-70 focus:outline-none focus:border-white"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-3xl bg-transparent border border-orange-200 border-opacity-50 text-orange-200 placeholder-orange-200 placeholder-opacity-70 focus:outline-none"
                 />
                 <div className="flex gap-2 md:gap-3">
                     <input
                         type="text"
                         placeholder="MM/YY"
-                        className="flex-1 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-lg bg-transparent border-2 border-white border-opacity-50 text-gray-800 placeholder-gray-800 placeholder-opacity-70 focus:outline-none focus:border-white"
+                        className="flex-1 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-3xl bg-transparent border border-orange-200 border-opacity-50 text-orange-200 placeholder-orange-200 placeholder-opacity-70 focus:outline-none"
                     />
                     <input
                         type="text"
                         placeholder="CVC"
-                        className="flex-1 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-lg bg-transparent border-2 border-white border-opacity-50 text-gray-800 placeholder-gray-800 placeholder-opacity-70 focus:outline-none focus:border-white"
+                        className="flex-1 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-3xl bg-transparent border border-orange-200 border-opacity-50 text-orange-200 placeholder-orange-200 placeholder-opacity-70 focus:outline-none"
                     />
                 </div>
             </div>
@@ -73,7 +73,7 @@ const CardInfoPayment = () => {
                 </p>
             </div>
 
-            <button className="w-full py-3 md:py-4 rounded-full bg-white text-orange-500 font-bold text-base md:text-lg hover:bg-opacity-90 transition-all shadow-lg border-2 border-white">
+            <button className="w-28 py-3 md:py-4 rounded-full bg-transparent text-color-orange-1 font-bold font-poppins text-base md:text-lg hover:bg-opacity-90 transition-all border border-orange-200">
                 Finalizar
             </button>
         </div>
