@@ -3,6 +3,8 @@ import { FiChevronLeft, FiChevronRight, FiHeart, FiShoppingCart } from 'react-ic
 import { formatGuarani } from '@core/shared/utils/formatDecimal';
 import usePromotionsStore from '@core/shared/stores/promotions.store';
 import { removeBackgroundImage, blobToDataURL } from '@core/shared/utils/imageUtils';
+import CarrouselSkeleton from './CarrouselSkeleton';
+import CentralShopLogo from '@assets/images/logo/centralShopLogo.webp';
 
 const PromotionsCarrousel = () => {
     const [processedImages, setProcessedImages] = useState({});
@@ -87,7 +89,7 @@ const PromotionsCarrousel = () => {
                 >
                     {isLoading ? (
                         <div className="shrink-0 w-72 flex items-center justify-center">
-                            <div className="animate-pulse">Cargando promociones...</div>
+                            <CarrouselSkeleton />
                         </div>
                     ) : (
                         products?.map((product) => (
@@ -108,8 +110,8 @@ const PromotionsCarrousel = () => {
                                                 alt={product.nombre}
                                                 className="max-w-full max-h-full w-auto h-auto object-contain transition-all duration-300 transform hover:scale-105"
                                                 onError={(e) => {
-                                                    if (e.target.src !== `https://csdigitalizacion.nyc3.cdn.digitaloceanspaces.com/ecommerce/store/${product.imagenes?.[0]?.url?.["1000"]}`) {
-                                                        e.target.src = `https://csdigitalizacion.nyc3.cdn.digitaloceanspaces.com/ecommerce/store/${product.imagenes?.[0]?.url?.["1000"]}`;
+                                                    if (e.target.src !== CentralShopLogo) {
+                                                        e.target.src = CentralShopLogo;
                                                     }
                                                 }}
                                             />

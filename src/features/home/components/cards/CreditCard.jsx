@@ -1,5 +1,5 @@
 import CreditCardImg from '@assets/images/categories/centralShopTD.webp';
-import CentralShopLogo from '@assets/images/logo/centralshoplogo.d08fd0e3.webp';
+import CentralShopLogo from '@assets/images/logo/centralShopLogo.webp';
 
 const CreditCard = () => {
   return (

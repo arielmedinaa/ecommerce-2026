@@ -89,7 +89,7 @@ const useCartStore = create((set, get) => ({
     }
 
     try {
-      const response = await fetch("http://localhost:3100/api/cart?codigo=6", {
+      const response = await fetch(`http://localhost:3100/api/cart?codigo=${state.cart.codigo}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -144,20 +144,51 @@ const useCartStore = create((set, get) => ({
       },
     }),
 
-  updateQuantity: (itemId, newQuantity) => {
+  updateQuantity: async (itemId, newQuantity, product, carrito) => {
     if (newQuantity < 1) return;
 
+    const state = get()
     set((state) => ({
       cart: {
         ...state.cart,
         articulos: {
           ...state.cart.articulos,
           contado: state.cart.articulos.contado.map((item) =>
-            item.id === itemId ? { ...item, cantidad: newQuantity } : item
+            item.codigo === itemId ? { ...item, cantidad: newQuantity } : item
           ),
         },
       },
     }));
+
+    try {
+      const response = await fetch(`http://localhost:3100/api/cart?codigo=${state.cart.codigo}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(product),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update cart");
+      }
+
+      const result = await response.json();
+      set((state) => ({
+        cart: setContado(state, getContado(state).map((item) =>
+          item.codigo === product.codigo
+            ? { ...item, ...result, isOptimistic: false }
+            : item
+        )),
+      }));
+    } catch (error) {
+      set((state) => ({
+        cart: setContado(state, getContado(state).filter(
+          (item) => item.codigo !== product.codigo
+        )),
+      }));
+    }
   },
 
   getContadoCount: () => {

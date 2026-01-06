@@ -123,9 +123,9 @@ const CartSidebar = ({ isOpen, onClose }) => {
                           <button
                             onClick={() => {
                               if (item.cantidad === 1) {
-                                removeItem(item.id);
+                                removeItem(item.codigo);
                               } else {
-                                updateQuantity(item.id, item.cantidad - 1);
+                                updateQuantity(item.codigo, item.cantidad - 1, { ...item, cantidad: -1 });
                               }
                             }}
                             className="w-7 h-7 flex items-center justify-center rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"

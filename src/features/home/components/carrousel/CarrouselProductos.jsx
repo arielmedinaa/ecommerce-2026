@@ -5,6 +5,7 @@ import useCartStore from '@core/shared/stores/cart.store';
 import { removeBackgroundImage, blobToDataURL } from '@core/shared/utils/imageUtils';
 import { formatGuarani } from '@core/shared/utils/formatDecimal';
 import usePromotionsStore from '@core/shared/stores/promotions.store';
+import CentralShopLogo from '@assets/images/logo/centralShopLogo.webp';
 
 const prepareCartItem = (product, size) => ({
     codigo: product.codigo,
@@ -32,6 +33,7 @@ const removeCartItem = () => {
 };
 
 const CarrouselProductos = ({ products = [], isLoading = false }) => {
+    const cart = useCartStore((state) => state.cart);
     const [processedImages, setProcessedImages] = useState({});
     const [processing, setProcessing] = useState({});
     const { fetchPromotions } = usePromotionsStore();
@@ -140,7 +142,7 @@ const CarrouselProductos = ({ products = [], isLoading = false }) => {
 
                 <div
                     id="product-carousel"
-                    className="flex h-full overflow-x-auto scroll-smooth space-x-6 py-4 scrollbar-hide items-stretch"
+                    className="flex h-full overflow-x-auto scroll-smooth space-x-6 py-4 pr-8 scrollbar-hide items-stretch"
                 >
                     {isLoading ? (
                         [...Array(4)].map((_, i) => <CarrouselSkeleton key={`skeleton-${i}`} />)
@@ -162,8 +164,8 @@ const CarrouselProductos = ({ products = [], isLoading = false }) => {
                                             alt={product.nombre}
                                             className="max-w-full max-h-full w-auto h-auto object-contain transition-all duration-300 transform hover:scale-105"
                                             onError={(e) => {
-                                                if (e.target.src !== `https://csdigitalizacion.nyc3.cdn.digitaloceanspaces.com/ecommerce/store/${product.imagenes?.[0]?.url?.["1000"]}`) {
-                                                    e.target.src = `https://csdigitalizacion.nyc3.cdn.digitaloceanspaces.com/ecommerce/store/${product.imagenes?.[0]?.url?.["1000"]}`;
+                                                if (e.target.src !== CentralShopLogo) {
+                                                    e.target.src = CentralShopLogo;
                                                 }
                                             }}
                                         />
@@ -175,26 +177,11 @@ const CarrouselProductos = ({ products = [], isLoading = false }) => {
                                 <div className="space-y-2">
                                     <h3 className="font-semibold text-gray-800 text-lg line-clamp-1 font-poppins">{product.nombre}</h3>
 
-                                    <div className="flex flex-wrap gap-2 max-h-20 overflow-hidden">
-                                        {product?.sizes?.map((size) => (
-                                            <button
-                                                key={size}
-                                                onClick={() => toggleSize(product.id, size)}
-                                                className={`px-3 py-1 text-sm rounded-full border ${selectedSizes[product.id] === size
-                                                    ? 'bg-orange-500 text-white border-orange-500'
-                                                    : 'bg-white text-gray-600 border-gray-300 hover:border-orange-300'
-                                                    } transition-colors`}
-                                            >
-                                                {size}
-                                            </button>
-                                        ))}
-                                    </div>
-
                                     <p className="text-gray-600 text-sm line-clamp-2">
                                         {product.descripcion?.toUpperCase()}
                                     </p>
                                     <div className="flex flex-wrap gap-2 mt-2">
-                                        {product.caracteristicas?.slice(0, 3).map((c, index) => (
+                                        {product.caracteristicas?.slice(0, 2).map((c, index) => (
                                             <span
                                                 key={index}
                                                 className="inline-flex items-center text-xs font-medium border border-orange-500 px-2 py-1 rounded-full font-poppins text-orange-500"
@@ -218,7 +205,7 @@ const CarrouselProductos = ({ products = [], isLoading = false }) => {
                                                 e.preventDefault();
                                                 const selectedSize = selectedSizes[product.codigo];
                                                 const cartItem = prepareCartItem(product, selectedSize);
-                                                addToCart(cartItem);
+                                                addToCart(cartItem, cart);
                                                 removeCartItem();
                                             }}
                                         >
