@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import CarrouselProductos from "../home/components/carrousel/CarrouselProductos";
 import CardInfoPayment from "./components/cards/CardInfoPayment";
 import { MOCK_CARROUSEL_PRODUCTS } from "./mockCarrouselProducts";
@@ -10,71 +11,137 @@ const MOCK_CART = [
   { codigo: 'P3', nombre: 'Auriculares de prueba', cantidad: 2, precio: 45000 }
 ];
 
-const Stepper = ({ step }) => (
-  <div className="flex items-center justify-between mb-8 font-poppins">
-    <div className="flex items-center gap-2 md:gap-3">
-      <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-orange-400 bg-opacity-30 flex items-center justify-center">
-        <FaCheck className="w-5 h-5 md:w-6 md:h-6 text-white" />
-      </div>
-      <span className="text-xs md:text-sm text-white opacity-90">Información</span>
-    </div>
-
-    <div className="flex-1 h-0.5 bg-white bg-opacity-30 mx-2 md:mx-4"></div>
-
-    <div className="flex items-center gap-2 md:gap-3">
-      <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white flex items-center justify-center">
-        <span className="text-white text-lg md:text-xl font-semibold">2</span>
-      </div>
-      <span className="text-xs md:text-sm text-white font-semibold">Pagos</span>
-    </div>
-
-    <div className="flex-1 h-0.5 bg-white bg-opacity-30 mx-2 md:mx-4"></div>
-
-    <div className="flex items-center gap-2 md:gap-3">
-      <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white border-opacity-50 flex items-center justify-center">
-        <span className="text-white text-lg md:text-xl font-semibold opacity-70">3</span>
-      </div>
-    </div>
-  </div>
-);
-
 const ProductList = ({ products }) => {
   const subtotal = products.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
   
   return (
-    <div className="p-4 md:p-6 h-full flex flex-col">
-      <h2 className="text-xl md:text-2xl font-bold mb-4 font-poppins">Mi Carrito</h2>
+    <motion.div 
+      className="p-4 md:p-6 h-full flex flex-col"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <motion.h2 
+        className="text-xl md:text-2xl font-bold mb-4 font-poppins"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.05 }}
+      >
+        Mi Carrito
+      </motion.h2>
       
-      <div className="space-y-3 md:space-y-4 flex-1 overflow-y-auto">
+      <div className="space-y-2 md:space-y-3 flex-1 overflow-y-auto">
         {products.map((item, i) => (
-          <div key={item.codigo + i} className="flex items-center gap-2 md:gap-3 bg-[#f6f6f6] rounded-xl p-2 md:p-3">
-            <div className="w-12 h-12 md:w-14 md:h-14 rounded-lg bg-gray-200 flex-shrink-0" />
+          <motion.div
+            key={item.codigo + i}
+            className="flex items-center gap-1 md:gap-2 bg-white shadow-md rounded-xl p-1 md:p-2"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              duration: 0.2, 
+              delay: 0.1 + i * 0.05
+            }}
+          >
+            <motion.div 
+              className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gray-200 shrink-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.15 + i * 0.05 }}
+            />
             <div className="flex-1 min-w-0">
-              <div className="text-sm md:text-base font-poppins truncate">{item.nombre}</div>
-              <div className="font-bold text-base md:text-lg font-poppins">{item.precio.toLocaleString()} Gs</div>
+              <motion.div 
+                className="text-xs md:text-sm truncate"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 + i * 0.05 }}
+              >
+                {item.nombre}
+              </motion.div>
+              <motion.div 
+                className="font-bold text-sm md:text-base"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.25 + i * 0.05 }}
+              >
+                {item.precio.toLocaleString()} Gs
+              </motion.div>
             </div>
-            <div className="flex flex-col items-center gap-1 flex-shrink-0">
-              <button className="w-6 h-6 flex items-center justify-center rounded bg-[#f1f1f1] text-base md:text-lg">+</button>
-              <span className="text-xs md:text-sm font-semibold">{item.cantidad}</span>
-              <button className="w-6 h-6 flex items-center justify-center rounded bg-[#f1f1f1] text-base md:text-lg">-</button>
-            </div>
-          </div>
+            <motion.div 
+              className="flex flex-col items-center gap-1 shrink-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 + i * 0.05 }}
+            >
+              <motion.button 
+                className="w-5 h-5 flex items-center justify-center rounded bg-[#f1f1f1] text-sm md:text-base"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.35 + i * 0.05 }}
+              >
+                +
+              </motion.button>
+              <span className="text-xs md:text-xs font-semibold">{item.cantidad}</span>
+              <motion.button 
+                className="w-5 h-5 flex items-center justify-center rounded bg-[#f1f1f1] text-sm md:text-base"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 + i * 0.05 }}
+              >
+                -
+              </motion.button>
+            </motion.div>
+          </motion.div>
         ))}
       </div>
 
-      <div className="mt-4 space-y-3">
-        <div className="font-semibold text-xs md:text-sm rounded-xl border border-gray-100 p-2 md:p-3 font-poppins shadow-sm">
+      <motion.div 
+        className="mt-4 space-y-3"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        <motion.div 
+          className="font-semibold text-xs md:text-sm rounded-xl border border-gray-100 p-2 md:p-3 font-poppins shadow-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
           Solicitudes Pendientes 
-          <button className="ml-2 text-xs bg-[#FFB072] text-white rounded-full px-2 py-0.5">Pagar 4</button>
-        </div>
+          <motion.button 
+            className="ml-2 text-xs bg-[#FFB072] text-white rounded-full px-2 py-0.5"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.65 }}
+          >
+            Pagar 4
+          </motion.button>
+        </motion.div>
         
-        <div className="flex flex-wrap gap-2">
+        <motion.div 
+          className="flex flex-wrap gap-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7 }}
+        >
           {["15% Off", "15% Off", "15% Off"].map((txt, i) => (
-            <span key={i} className="bg-[#e6f5e6] text-[#51c151] text-xs px-2 py-0.5 rounded-full">{txt}</span>
+            <motion.span 
+              key={i} 
+              className="bg-[#e6f5e6] text-[#51c151] text-xs px-2 py-0.5 rounded-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.75 + i * 0.02 }}
+            >
+              {txt}
+            </motion.span>
           ))}
-        </div>
+        </motion.div>
         
-        <div className="flex flex-col justify-center border border-gray-100 p-3 md:p-4 rounded-xl shadow-sm font-poppins">
+        <motion.div 
+          className="flex flex-col justify-center border border-gray-100 p-3 md:p-4 rounded-xl shadow-sm font-poppins"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+        >
           <div className="text-xs md:text-sm text-gray-700 space-y-1">
             <div className="flex justify-between"><span>Subtotal</span><span>G$ {subtotal.toLocaleString()}</span></div>
             <div className="flex justify-between"><span>Descuentos</span><span>G$ 0</span></div>
@@ -84,9 +151,9 @@ const ProductList = ({ products }) => {
             <span className="font-bold">Total:</span>
             <span className="font-semibold">G$ {subtotal.toLocaleString()}</span>
           </div>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
@@ -97,7 +164,7 @@ const Comments = () => (
       {[1, 2, 3].map((i) => (
         <div key={i} className="bg-white rounded-xl p-4 shadow-md">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 bg-gray-200 rounded-full flex-shrink-0" />
+            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0" />
             <span className="font-semibold text-sm flex-1">User {i}</span>
             <span className="text-xs text-[#FFB072] font-semibold">Cliente destacado</span>
           </div>

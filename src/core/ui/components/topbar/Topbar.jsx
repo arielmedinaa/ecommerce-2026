@@ -76,7 +76,7 @@ const Topbar = ({ onMenuClick, onCartClick }) => {
 
   return (
     <header className="sticky top-0 z-50 bg-orange-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-orange-200 mt-2 mb-2 rounded-full">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-4">
             <button
@@ -85,7 +85,7 @@ const Topbar = ({ onMenuClick, onCartClick }) => {
             >
               <FiMenu className="w-6 h-6 text-gray-700" />
             </button>
-            <div className="hidden md:flex items-center space-x-2 bg-orange-200 hover:bg-orange-100 rounded-full px-5 py-2.5 font-poppins transition-colors border border-orange-100">
+            <div className="hidden md:flex items-center space-x-2 bg-orange-100 cursor-pointer rounded-full px-5 py-2.5 font-poppins transition-colors">
               <FaMapMarkerAlt className="w-5 h-5 text-orange-600" />
               <span className="text-base font-medium text-orange-700">Agrega tu dirección</span>
             </div>
@@ -100,7 +100,7 @@ const Topbar = ({ onMenuClick, onCartClick }) => {
                   onChange={search}
                   onFocus={() => searchResults.length > 0 && setIsDropdownOpen(true)}
                   placeholder="Buscar productos, marcas y más..."
-                  className="w-full px-6 py-3 pl-6 pr-14 bg-transparent border border-orange-700 rounded-full focus:outline-none text-base text-orange-700 placeholder-orange-700"
+                  className="w-full px-6 py-3 pl-6 pr-14 bg-orange-100 rounded-full focus:outline-none text-base text-orange-700 placeholder-orange-700"
                 />
                 {searchValue ? (
                   <button
