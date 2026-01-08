@@ -6,7 +6,6 @@ import gsap from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { Draggable } from "gsap/Draggable";
 
-// Register GSAP plugins
 gsap.registerPlugin(MotionPathPlugin, Draggable);
 
 import useHookSIide from "../../hooks/useHookSIide";

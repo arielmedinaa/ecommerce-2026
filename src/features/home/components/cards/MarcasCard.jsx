@@ -46,6 +46,7 @@ const MarcasCard = ({ marcas }) => {
                                             src={marca.img}
                                             alt={marca.name}
                                             className={`${marca.color} w-full h-full object-cover`}
+                                            style={{ clipPath: 'inset(0)' }}
                                         />
                                     </div>
                                     <div className="absolute inset-0 bg-black/30" />

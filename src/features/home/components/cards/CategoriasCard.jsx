@@ -51,11 +51,11 @@ const CategoriasCard = ({ categories }) => {
                                             Ver más
                                         </button>
                                     </div>
-                                    <div className="flex-1 flex items-center justify-center">
+                                    <div className="flex-1 flex items-center justify-center overflow-hidden">
                                         <img
                                             src={category.img}
                                             alt={category.name}
-                                            className="h-38 object-contain transition-transform duration-300 group-hover:scale-105"
+                                            className="h-38 object-contain transition-transform duration-300 group-hover:scale-105 max-w-full"
                                         />
                                     </div>
                                 </div>

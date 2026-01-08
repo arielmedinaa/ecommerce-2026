@@ -3,7 +3,7 @@ import { FiX, FiPlus, FiMinus, FiShoppingBag } from 'react-icons/fi';
 import useCartStore from '@core/shared/stores/cart.store';
 import { formatGuarani } from '@core/shared/utils/formatDecimal';
 
-const CartSidebar = ({ isOpen, onClose }) => {
+const CartSidebar = ({ isOpen, onClose, onCheckout }) => {
   const { updateQuantity, removeItem, getTotalPrice, getTotalItems, getCartContado, addItem } = useCartStore();
   const { contado: contadoItems = [] } = getCartContado();
   const items = contadoItems;
@@ -165,9 +165,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
                 <button
                   className="w-full bg-linear-to-r from-orange-500 to-orange-600 text-white py-3.5 rounded-full font-semibold hover:from-orange-600 hover:to-orange-700 active:scale-[0.98] transition-all shadow-lg"
-                  onClick={() => {
-                    console.log('Proceder al pago');
-                  }}
+                  onClick={onCheckout}
                 >
                   Proceder al pago
                 </button>

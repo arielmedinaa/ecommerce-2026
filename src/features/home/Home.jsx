@@ -52,6 +52,9 @@ const EmojiExplosion = ({ isActive }) => {
         image.style.top = '50%';
         image.style.transform = 'translate(-50%, -50%)';
         image.style.zIndex = '20';
+        image.style.clipPath = 'inset(0)';
+        image.style.maxWidth = '100%';
+        image.style.maxHeight = '100%';
         
         container.appendChild(image);
         imageElements.push(image);
@@ -59,7 +62,7 @@ const EmojiExplosion = ({ isActive }) => {
 
       imageElements.forEach((image, index) => {
         const angle = (Math.PI * 2 * index) / imageCount;
-        const distance = 400 + Math.random() * 500;
+        const distance = 300 + Math.random() * 400;
         const x = Math.cos(angle) * distance;
         const y = Math.sin(angle) * distance;
         const rotation = Math.random() * 720 - 360;
@@ -100,7 +103,7 @@ const EmojiExplosion = ({ isActive }) => {
     };
   }, [isActive]);
 
-  return <div ref={containerRef} className="absolute inset-0 pointer-events-none overflow-hidden"></div>;
+  return <div ref={containerRef} className="absolute inset-0 pointer-events-none overflow-hidden" style={{ clipPath: 'inset(0)' }}></div>;
 };
 
 const Home = () => {
@@ -139,42 +142,6 @@ const Home = () => {
           <HeroCarousel isVisible={home.isHeroVisible} banners={home.banners} onSlideChange={handleSlideChange} />
         </div>
 
-        <div className="absolute top-0 left-0 w-full h-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-1/4 left-0 transform -translate-y-1/4">
-            <div 
-              className="w-[400px] h-96 blur-2xl rounded-full opacity-60" 
-              style={{ 
-                background: 'radial-gradient(ellipse, rgba(255, 140, 0, 0.8) 0%, rgba(255, 165, 0, 0.6) 50%, transparent 100%)' 
-              }} 
-            />
-          </div>
-          <div className="absolute top-1/2 left-0 transform -translate-y-1/2">
-            <div 
-              className="w-[300px] h-80 blur-xl rounded-full opacity-50" 
-              style={{ 
-                background: 'radial-gradient(circle, rgba(255, 195, 0, 0.7) 0%, rgba(255, 140, 0, 0.4) 70%, transparent 100%)' 
-              }} 
-            />
-          </div>
-
-          <div className="absolute top-1/4 right-0 transform -translate-y-1/4">
-            <div 
-              className="w-[400px] h-96 blur-2xl rounded-full opacity-60" 
-              style={{ 
-                background: 'radial-gradient(ellipse, rgba(255, 69, 0, 0.8) 0%, rgba(255, 140, 0, 0.6) 50%, transparent 100%)' 
-              }} 
-            />
-          </div>
-          <div className="absolute top-1/2 right-0 transform -translate-y-1/2">
-            <div 
-              className="w-[300px] h-80 blur-xl rounded-full opacity-50" 
-              style={{ 
-                background: 'radial-gradient(circle, rgba(255, 195, 0, 0.7) 0%, rgba(255, 69, 0, 0.4) 70%, transparent 100%)' 
-              }} 
-            />
-          </div>
-        </div>
-
         <div className="w-full mt-8" >
           <div className="flex flex-col lg:flex-row gap-6">
             <CategoriasCard categories={categories} />
@@ -210,6 +177,7 @@ const Home = () => {
           />
         </div>
         <div className="relative z-10">
+          <PromotionsCarrousel />
           <PromotionsCarrousel />
         </div>
       </div>

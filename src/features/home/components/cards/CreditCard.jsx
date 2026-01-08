@@ -29,11 +29,11 @@ const CreditCard = () => {
             </button>
           </div>
 
-          <div className="w-full md:w-1/2">
+          <div className="w-full md:w-1/2 flex items-start">
             <img
               src={CreditCardImg}
               alt="Tarjeta de Crédito Central Shop"
-              className="text-end w-full max-w-none md:max-w-[400px] h-auto"
+              className="w-full max-w-none md:max-w-[400px] h-auto object-contain"
             />
           </div>
         </div>

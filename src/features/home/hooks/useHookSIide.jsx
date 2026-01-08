@@ -11,7 +11,10 @@ const useHookSIide = (initialSlides = []) => {
 
   const nextSlide = useCallback(() => {
     if (slides.length === 0) return;
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setCurrentSlide((prev) => {
+      const next = prev + 1;
+      return next >= slides.length ? prev : next; // Stay at last slide
+    });
   }, [slides.length]);
 
   const prevSlide = useCallback(() => {
@@ -29,11 +32,14 @@ const useHookSIide = (initialSlides = []) => {
     if (slides.length <= 1) return;
     
     const interval = setInterval(() => {
-      nextSlide();
+      setCurrentSlide((prev) => {
+        const next = prev + 1;
+        return next >= slides.length ? prev : next; // Stop at last slide
+      });
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [nextSlide, slides.length]);
+  }, [slides.length]);
 
   return {
     currentSlide,
