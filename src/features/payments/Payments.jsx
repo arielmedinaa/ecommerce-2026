@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import CarrouselProductos from "../home/components/carrousel/CarrouselProductos";
+import { motion } from "framer-motion";
+import Carrousel from "@core/ui/components/carrousel/Carrousel";
 import CardInfoPayment from "./components/cards/CardInfoPayment";
 import { MOCK_CARROUSEL_PRODUCTS } from "./mockCarrouselProducts";
-import { FaCheck } from "react-icons/fa";
 
 const MOCK_CART = [
   { codigo: 'P1', nombre: 'Auriculares de prueba', cantidad: 2, precio: 45000 },
@@ -182,8 +181,8 @@ const Comments = () => (
 
 const Payments = () => {
   return (
-    <div className="min-h-screen bg-orange-100">
-      <div className="w-full px-4 md:px-6 lg:px-8 py-6 md:py-8">
+    <div className="min-h-screen bg-orange-100 p-4 sm:p-6 lg:p-10">
+      <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
           <div className="lg:col-span-2">
             <CardInfoPayment />
@@ -197,7 +196,7 @@ const Payments = () => {
         </div>
 
         <div className="mb-8 md:mb-12">
-          <CarrouselProductos products={MOCK_CARROUSEL_PRODUCTS} />
+          <Carrousel products={MOCK_CARROUSEL_PRODUCTS} />
         </div>
         <Comments />
       </div>

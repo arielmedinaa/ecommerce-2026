@@ -2,7 +2,7 @@ import Payments from "./Payments";
 
 export const paymentRoutes = [
     {
-        path: '/payments',
+        path: '/pagos',
         element: <Payments />,
         label: 'Pagos'
     }
