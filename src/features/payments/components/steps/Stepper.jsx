@@ -9,7 +9,7 @@ const Stepper = ({ currentStep }) => {
   ];
 
   return (
-    <div className="flex items-center justify-center md:gap-8 lg:gap-12 sm:gap-4 mb-8">
+    <div className="flex items-center justify-center md:gap-2 lg:gap-12 sm:gap-2 mb-8">
       {steps.map((step, index) => {
         const Icon = step.icon;
         const isActive = currentStep === step.id;
@@ -30,7 +30,7 @@ const Stepper = ({ currentStep }) => {
                 <Icon size={20} />
               </div>
               {isActive && (
-                <div className="absolute inset-0 w-10 h-10 rounded-full bg-orange-500 animate-ping opacity-20"></div>
+                <div className="absolute inset-0 w-10 h-10 rounded-full bg-orange-500 animate-ping opacity-20" />
               )}
             </div>
             <span
@@ -46,7 +46,7 @@ const Stepper = ({ currentStep }) => {
             </span>
             {index < steps.length - 1 && (
               <div
-                className={`w-8 h-0.5 transition-all duration-300 ${
+                className={`lg:w-10 h-0.5 transition-all duration-300 ${
                   isCompleted ? "bg-green-500" : "bg-gray-200"
                 }`}
               />

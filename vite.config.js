@@ -13,6 +13,8 @@ export default defineConfig({
       '@features': path.resolve(__dirname, './src/features'),
       '@shared': path.resolve(__dirname, './src/core/shared'),
       '@ui': path.resolve(__dirname, './src/core/ui'),
+      '@components': path.resolve(__dirname, './src/core/ui/components'),
+      '@componentsGlobales': path.resolve(__dirname, './src/core/ui/components/ComponentesGlobales'),
     },
   },
 });

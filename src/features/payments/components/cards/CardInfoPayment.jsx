@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Stepper from "../steps/Stepper";
-import PersonalInfoStep from "../PersonalInfoStep";
+import PersonalInfoStep from "../step/PersonalInfoStep";
 import PaymentMethodSelector from "../PaymentMethodSelector";
-import CardPaymentForm from "../CardPaymentForm";
-import TransferPaymentForm from "../TransferPaymentForm";
-import CashPaymentForm from "../CashPaymentForm";
-import SuccessStep from "../SuccessStep";
+import CardPaymentForm from "../form/CardPaymentForm";
+import TransferPaymentForm from "../form/TransferPaymentForm";
+import CashPaymentForm from "../form/CashPaymentForm";
+import SuccessStep from "../step/SuccessStep";
 import NavigationButtons from "../NavigationButtons";
 
 const CardInfoPayment = () => {
@@ -65,22 +65,24 @@ const CardInfoPayment = () => {
   };
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-lg w-full h-full font-poppins flex flex-col">
+    <div className="bg-white rounded-2xl p-6 shadow-lg w-full h-[700px] font-poppins flex flex-col">
       <Stepper currentStep={currentStep} />
-      <div className="flex-1 min-h-[300px]">
+      <div className="flex-1 min-h-0">
         {currentStep === 1 && (
-          <PersonalInfoStep 
-            formData={formData} 
-            handleInputChange={handleInputChange} 
-          />
+          <div className="h-full flex flex-col p-3">
+            <PersonalInfoStep 
+              formData={formData} 
+              handleInputChange={handleInputChange} 
+            />
+          </div>
         )}
 
         {currentStep === 2 && (
-          <div className="animate-fadeIn">
-            <h3 className="text-xl font-semibold text-gray-800 mb-6">
+          <div className="h-full flex flex-col animate-fadeIn p-3">
+            <h3 className="text-lg font-semibold text-gray-800 mb-2 shrink-0">
               Método de Pago
             </h3>
-            <div className="space-y-6">
+            <div className="flex-1 min-h-0 overflow-y-auto">
               <PaymentMethodSelector 
                 formData={formData} 
                 handleInputChange={handleInputChange} 
@@ -108,12 +110,14 @@ const CardInfoPayment = () => {
       </div>
 
       {currentStep < 3 && (
-        <NavigationButtons
-          currentStep={currentStep}
-          onPrev={handlePrevStep}
-          onNext={handleNextStep}
-          isStepValid={isStepValid}
-        />
+        <div className="shrink-0 mt-4">
+          <NavigationButtons
+            currentStep={currentStep}
+            onPrev={handlePrevStep}
+            onNext={handleNextStep}
+            isStepValid={isStepValid}
+          />
+        </div>
       )}
     </div>
   );

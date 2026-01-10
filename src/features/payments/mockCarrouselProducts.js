@@ -1,6 +1,6 @@
 export const MOCK_CARROUSEL_PRODUCTS = [
   {
-    codigo: 'PRD001',
+    codigo: '10994',
     nombre: 'Auriculares Bluetooth',
     precio: 399000,
     descripcion: 'Auriculares inalámbricos con cancelación de ruido',
@@ -16,7 +16,7 @@ export const MOCK_CARROUSEL_PRODUCTS = [
     ruta: '/producto/auriculares-bluetooth',
   },
   {
-    codigo: 'PRD001',
+    codigo: '10994',
     nombre: 'Auriculares Bluetooth',
     precio: 399000,
     descripcion: 'Auriculares inalámbricos con cancelación de ruido',
@@ -32,7 +32,7 @@ export const MOCK_CARROUSEL_PRODUCTS = [
     ruta: '/producto/auriculares-bluetooth',
   },
   {
-    codigo: 'PRD001',
+    codigo: '10994',
     nombre: 'Auriculares Bluetooth',
     precio: 399000,
     descripcion: 'Auriculares inalámbricos con cancelación de ruido',
@@ -48,7 +48,7 @@ export const MOCK_CARROUSEL_PRODUCTS = [
     ruta: '/producto/auriculares-bluetooth',
   },
   {
-    codigo: 'PRD002',
+    codigo: '10994',
     nombre: 'Smartwatch Pro',
     precio: 1499000,
     descripcion: 'Reloj inteligente resistente al agua',
@@ -64,7 +64,7 @@ export const MOCK_CARROUSEL_PRODUCTS = [
     ruta: '/producto/smartwatch-pro',
   },
   {
-    codigo: 'PRD003',
+    codigo: '10994',
     nombre: 'Teclado Mecánico RGB',
     precio: 899000,
     descripcion: 'Teclado para gamers con retroiluminación',
@@ -80,7 +80,7 @@ export const MOCK_CARROUSEL_PRODUCTS = [
     ruta: '/producto/teclado-mecanico',
   },
   {
-    codigo: 'PRD004',
+    codigo: '10994',
     nombre: 'Cámara Web HD',
     precio: 549000,
     descripcion: 'Cámara con micrófono integrado',

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 function getContado(state) {
   return state.cart.articulos.contado;
@@ -14,7 +15,9 @@ function setContado(state, newContado) {
   };
 }
 
-const useCartStore = create((set, get) => ({
+const useCartStore = create(
+  persist(
+    (set, get) => ({
   cart: {
     articulos: {
       contado: [],
@@ -89,7 +92,7 @@ const useCartStore = create((set, get) => ({
     }
 
     try {
-      const response = await fetch(`http://localhost:3100/api/cart?codigo=${state.cart.codigo}`, {
+      const response = await fetch(`https://1xzrqw4q-3100.brs.devtunnels.ms/api/cart?codigo=${state.cart.codigo}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -225,6 +228,11 @@ const useCartStore = create((set, get) => ({
       ) || 0
     );
   },
-}));
+}),
+  {
+    name: 'cart-storage',
+  }
+  )
+);
 
 export default useCartStore;

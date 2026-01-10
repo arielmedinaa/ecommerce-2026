@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiX, FiMail, FiLock, FiUser, FiEye, FiEyeOff } from "react-icons/fi";
 import { useEnterNavigation } from "@core/shared/hooks/useEnterNavigation";
+import { useNavigate } from "react-router-dom";
 
 const ModalAuth = ({ isOpen, onClose }) => {
+  const navigate = useNavigate();
   const { registerInput, handleKeyDown } = useEnterNavigation();
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -22,6 +24,8 @@ const ModalAuth = ({ isOpen, onClose }) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
     // TODO: Implement authentication logic
+    navigate("/pagos");
+    onClose();
   };
 
   const handleInputChange = (e) => {
