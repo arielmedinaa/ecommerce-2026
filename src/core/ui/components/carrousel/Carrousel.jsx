@@ -89,10 +89,10 @@ const Carrousel = ({ products = [], isLoading = false, textTitle = '' }) => {
     const renderProductItem = (product, index) => (
         <div
             key={product.codigo}
-            className="shrink-0 w-72 bg-orange-50 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 flex flex-col h-[460px]"
+            className="shrink-0 w-72 bg-slate-50 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 flex flex-col h-[460px]"
         >
             <div className='p-3'>
-                <div className="relative h-48 bg-orange-50 overflow-hidden rounded-2xl flex items-center justify-center">
+                <div className="relative h-48 bg-slate-50 overflow-hidden rounded-2xl flex items-center justify-center">
                     <button className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 z-10 transition-colors">
                         <FiHeart className="w-5 h-5 text-gray-600" />
                     </button>
@@ -115,6 +115,7 @@ const Carrousel = ({ products = [], isLoading = false, textTitle = '' }) => {
 
             <div className="flex flex-col grow p-4">
                 <div className="space-y-2">
+                    <p className="text-[10px] font-poppins text-gray-400 underline">Apple</p>
                     <h3 className="font-semibold text-gray-800 text-lg line-clamp-1 font-poppins">{product.nombre}</h3>
 
                     <p className="text-gray-600 text-sm line-clamp-2">

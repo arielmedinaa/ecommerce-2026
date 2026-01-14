@@ -6,6 +6,7 @@ import MarcasCard from "./components/cards/MarcasCard";
 import CreditCard from "./components/cards/CreditCard";
 import Promotions from "./components/cards/Promotions";
 import PromotionsCarrousel from "./components/carrousel/PromotionsCarrousel";
+import InfoCarrousel from "./components/carrousel/InfoCarrousel";
 import useHookHome from "./hooks/useHookHome";
 import { useInView } from "react-intersection-observer";
 
@@ -17,9 +18,11 @@ import Apple from "@assets/images/backgrounds/appleBackground.jpg";
 import Samsung from "@assets/images/backgrounds/samsungBackground.jpg";
 import Bosch from "@assets/images/backgrounds/boschBackground.jpg";
 import Philips from "@assets/images/backgrounds/philipsBackground.jpg";
+import Electrodomestic from "@assets/images/products/electrodomestics.png";
 
 import RegisterCard from "./components/cards/RegisterCard";
 import EmojiExplosion from "./components/global/EmojiExplosion";
+import { FiArrowRight } from "react-icons/fi";
 
 const Home = () => {
   const { ref: loadMoreRef, inView } = useInView({
@@ -33,52 +36,16 @@ const Home = () => {
     setCurrentSlide(slideIndex);
   };
 
-  const categories = [
-    {
-      name: "Automotor",
-      description: "KIA SPORTAGE",
-      img: Automotor,
-      color: "bg-linear-to-br from-orange-300 to-orange-700",
-      descriptionColor: "text-orange-100",
-      textColor: "text-orange-600",
-    },
-    {
-      name: "Electrodomésticos",
-      description: "MIDAS",
-      img: Electrodomesticos,
-      color: "bg-linear-to-br from-orange-300 to-orange-700",
-      descriptionColor: "text-orange-100",
-      textColor: "text-orange-600",
-    },
-    {
-      name: "Televisores",
-      description: "SAMRT TV",
-      img: CategoryTv,
-      color: "bg-linear-to-br from-blue-300 to-blue-700",
-      descriptionColor: "text-blue-100",
-      textColor: "text-blue-600",
-    },
-    {
-      name: "Celulares",
-      description: "IPHONE 15",
-      img: CategoryPhone,
-      color: "bg-linear-to-br from-orange-300 to-orange-700",
-      descriptionColor: "text-orange-100",
-      textColor: "text-orange-600",
-    },
-  ];
-
   const marcas = [
-    { name: "Apple", img: Apple, color: "bg-orange-700" },
-    { name: "Samsung", img: Samsung, color: "bg-orange-500" },
-    { name: "Bosch", img: Bosch, color: "bg-orange-600" },
-    { name: "Philips", img: Philips, color: "bg-orange-600" },
+    { name: "Apple", img: Apple, color: "bg-orange-700", buttonColor: "bg-orange-1" },
+    { name: "Samsung", img: Samsung, color: "bg-orange-500", buttonColor: "bg-[#5f6566]" },
+    { name: "Bosch", img: Bosch, color: "bg-orange-600", buttonColor: "bg-[#694b3b]" },
+    { name: "Philips", img: Philips, color: "bg-orange-600", buttonColor: "bg-[#a24321]" },
   ];
 
   return (
-    <div className="min-h-screen bg-orange-100 p-4 sm:p-6 lg:p-10">
+    <div className="min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <div className="min-h-[calc(100vh-4rem)]" ref={home.heroRef}>
         <div className="w-full h-full p-1 relative">
           <div className="absolute top-0 left-0 w-full h-full z-10">
             <EmojiExplosion isActive={currentSlide === 2} />
@@ -90,70 +57,67 @@ const Home = () => {
           />
         </div>
 
-        <div className="w-full mt-2 sm:mt-3 md:mt-4 lg:mt-6 xl:mt-8">
-          <div className="flex flex-col lg:flex-row gap-6">
-            <CategoriasCard categories={categories} />
+        <InfoCarrousel />
 
-            <div className="w-full lg:w-3/5 h-full">
-              <Carrousel products={home.productos} textTitle="Productos destacados" />
+        <div className="w-full h-64 mt-10 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12 relative bg-orange-970 rounded-l-3xl p-6 flex object-cover overflow-hidden">
+          <div className="absolute -bottom-8 -right-8 w-24 h-24 rounded-full bg-orange-300"></div>
+          <div className="absolute -bottom-12 -right-12 w-32 h-32 rounded-full bg-orange-300/70"></div>
+          <div className="absolute -bottom-14 -right-14 w-40 h-40 rounded-full bg-orange-300/50"></div>
+          <div className="absolute -bottom-16 -right-16 w-48 h-48 rounded-full bg-orange-300/30"></div>
+          <div className="absolute -bottom-18 -right-18 w-56 h-56 rounded-full bg-orange-300/20"></div>
+          <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-orange-300/10"></div>
+          <div className="absolute -bottom-22 -right-22 w-72 h-72 rounded-full bg-orange-300/20"></div>
+
+          <div className="flex w-full items-center justify-between z-20">
+            <div className="w-2/3 p-3 rounded-md">
+              <p className="text-white text-5xl font-bold italic mb-2">
+                Hoy conviene comprar
+              </p>
+              <p className="text-white text-lg font-poppins mb-3">
+                Aprovecha y compra todos los productos con un mejor precio y
+                descuentos con la tarjeta de{" "}
+                <span className="font-bold">Central Shop</span>
+              </p>
+              <button className="text-white text-lg italic bg-orange-300/40 rounded-full px-4 py-1 flex items-center gap-1">
+                Ver más <FiArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="w-1/3">
+              <img
+                src={Electrodomestic}
+                alt="Electrodomestic"
+                className="w-full h-auto"
+              />
             </div>
           </div>
         </div>
-      </div>
 
-      <div
-        className="w-full mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12 relative"
-        ref={loadMoreRef}
-      >
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-          <div
-            className="w-[9000px] h-60 blur-3xl rounded-full"
-            style={{
-              background:
-                "radial-gradient(ellipse, rgba(249, 116, 22, 0.89) 0%, rgba(251, 146, 60, 0.92) 50%, transparent 100%)",
-            }}
-          />
-        </div>
-        <div className="relative z-10">
-          <MarcasCard marcas={marcas} />
-        </div>
-      </div>
+        <PromotionsCarrousel />
+        <PromotionsCarrousel />
 
-      <div className="w-full mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12 relative">
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-          <div
-            className="w-[8000px] h-80 blur-2xl rounded-full"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(251, 146, 60, 0.8) 0%, rgba(249, 115, 22, 0.6) 40%, rgba(254, 215, 170, 0.4) 70%, transparent 100%)",
-            }}
-          />
-        </div>
-        <PromotionsCarrousel title="Promos destacados" />
-      </div>
-
-      <RegisterCard />
-
-      <div className="w-full mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12 relative">
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-          <div
-            className="w-[7000px] h-96 blur-2xl rounded-full"
-            style={{
-              background:
-                "radial-gradient(ellipse, rgba(254, 215, 170, 0.7) 0%, rgba(251, 146, 60, 0.5) 30%, rgba(249, 115, 22, 0.3) 60%, transparent 100%)",
-            }}
-          />
-        </div>
-        <div className="relative">
-          <div className="flex flex-col lg:flex-row gap-6">
-            <CreditCard />
-            <Promotions />
+        <div
+          className="w-full mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12 relative"
+          ref={loadMoreRef}
+        >
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+            <div
+              className="w-[9000px] h-60 blur-3xl rounded-full"
+              style={{
+                background:
+                  "radial-gradient(ellipse, rgba(249, 116, 22, 0.89) 0%, rgba(251, 146, 60, 0.92) 50%, transparent 100%)",
+              }}
+            />
+          </div>
+          <div className="relative z-10">
+            <MarcasCard marcas={marcas} />
           </div>
         </div>
-        <PromotionsCarrousel />
-        <PromotionsCarrousel />
+
+        
       </div>
-      </div>
+      <div className="w-full min-h-screen mt-10 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12 relative bg-linear-to-t from-slate-100 to-orange-300 p-6 flex object-cover overflow-hidden">
+          
+        </div>
     </div>
   );
 };

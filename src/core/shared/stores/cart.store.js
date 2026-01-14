@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { cartApi } from "@features/cart/api/cartAPI";
 
 function getContado(state) {
   return state.cart.articulos.contado;
@@ -91,35 +92,8 @@ const useCartStore = create(
       }));
     }
 
-    try {
-      const response = await fetch(`https://1xzrqw4q-3100.brs.devtunnels.ms/api/cart?codigo=${state.cart.codigo}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(product),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update cart");
-      }
-
-      const result = await response.json();
-      set((state) => ({
-        cart: setContado(state, getContado(state).map((item) =>
-          item.codigo === product.codigo
-            ? { ...item, ...result, isOptimistic: false }
-            : item
-        )),
-      }));
-    } catch (error) {
-      set((state) => ({
-        cart: setContado(state, getContado(state).filter(
-          (item) => item.codigo !== product.codigo
-        )),
-      }));
-    }
+    cartApi.getCartByCode(state.cart.codigo, set, product);
+    
   },
 
   removeItem: (itemId) => {

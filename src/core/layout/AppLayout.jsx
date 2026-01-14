@@ -22,7 +22,7 @@ const AppLayout = ({ children }) => {
           onMenuClick={() => setSidebarOpen(!sidebarOpen)}
           onCartClick={() => setIsCartOpen(true)}
         />
-        <main className="w-full overflow-y-auto">
+        <main className="w-full overflow-y-auto bg-slate-100">
           {children}
         </main>
       </div>

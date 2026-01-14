@@ -99,13 +99,16 @@ export const blobToDataURL = (blob) => {
   });
 };
 
-export const getImageUrl = (imageName) => {
+export const getImageUrl = (imageName, directory = '') => {
   const cleanName = imageName.endsWith('.webp') ? imageName.slice(0, -5) : imageName;
+
+  console.log(cleanName);
+  console.log(directory);
   
   try {
-    return require(`../assets/${cleanName}.webp`);
+    return new URL(`../../../assets/${directory}${cleanName}.webp`, import.meta.url).href;
   } catch (error) {
-    console.error(`Image not found: ${cleanName}.webp`);
+    console.error(`Image not found: ${cleanName}.webp ${error}`);
     return '';
   }
 };

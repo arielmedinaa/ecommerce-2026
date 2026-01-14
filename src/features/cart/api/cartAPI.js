@@ -1,4 +1,4 @@
-import { baseUrl } from "@/core/shared/constants/globalConst";
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export const cartApi = {
   getCart: async (bodyFilter = {}) => {
@@ -19,6 +19,38 @@ export const cartApi = {
     } catch (error) {
       console.error('Error getting cart:', error);
       throw error;
+    }
+  },
+
+  getCartByCode: async (codigo, set, product) => {
+    try {
+      const response = await fetch(`${baseUrl}cart?codigo=${codigo}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(product),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update cart");
+      }
+
+      const result = await response.json();
+      set((state) => ({
+        cart: setContado(state, getContado(state).map((item) =>
+          item.codigo === product.codigo
+            ? { ...item, ...result, isOptimistic: false }
+            : item
+        )),
+      }));
+    } catch (error) {
+      set((state) => ({
+        cart: setContado(state, getContado(state).filter(
+          (item) => item.codigo !== product.codigo
+        )),
+      }));
     }
   },
 

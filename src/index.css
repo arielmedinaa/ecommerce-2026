@@ -26,6 +26,14 @@
   color: #f18f50;
 }
 
+.from-orange-1 {
+    background-color: #c98035;
+}
+
+.bg-orange-970 {
+    background-color: #f18f50;
+}
+
 /* Animations for checkout steps */
 @keyframes fadeIn {
   from {
