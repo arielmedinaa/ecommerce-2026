@@ -65,15 +65,15 @@ const PromotionsCarrousel = ({ title }) => {
   const renderProductItem = (product, index) => (
     <div
       key={product.codigo}
-      className="shrink-0 w-72 bg-slate-50 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 flex flex-col h-[430px]"
+      className="shrink-0 w-64 bg-slate-50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 flex flex-col h-[340px]"
     >
-      <div className="p-3 relative">
-        <div className="relative h-48 overflow-hidden rounded-2xl flex items-center justify-center">
-          <button className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 z-10 transition-colors">
-            <FiHeart className="w-5 h-5 text-gray-600" />
+      <div className="p-2 relative">
+        <div className="relative h-36 overflow-hidden rounded-xl flex items-center justify-center">
+          <button className="absolute top-2 right-2 p-1.5 bg-white rounded-full shadow-md hover:bg-gray-100 z-10 transition-colors">
+            <FiHeart className="w-4 h-4 text-gray-600" />
           </button>
 
-          <div className="w-full h-full p-3 flex items-center justify-center bg-orange-200 rounded-3xl">
+          <div className="w-full h-full p-2 flex items-center justify-center bg-orange-200 rounded-xl">
             <img
               src={
                 processedImages[
@@ -91,40 +91,40 @@ const PromotionsCarrousel = ({ title }) => {
             />
           </div>
         </div>
-        <div className="absolute bottom-2 right-1 bg-orange-1 text-white text-sm px-2 py-1 rounded-xl font-poppins z-20">
+        <div className="absolute bottom-1 right-1 bg-orange-1 text-white text-xs px-2 py-0.5 rounded-lg font-poppins z-20">
           <FaRegCreditCard className="inline-block mr-1" /> Tarjeta
         </div>
       </div>
 
-      <div className="flex flex-col grow p-4">
-        <div className="space-y-2">
-          <p className="text-sm font-poppins text-gray-400 underline">Apple</p>
-          <h3 className="font-bold text-gray-800 text-lg line-clamp-1 font-poppins">
+      <div className="flex flex-col grow p-3">
+        <div className="space-y-1">
+          <p className="text-xs font-poppins text-gray-400 underline">Apple</p>
+          <h3 className="font-bold text-gray-800 text-base line-clamp-1 font-poppins">
             {product.nombre}
           </h3>
-          <p className="text-gray-600 text-xs line-clamp-2 font-poppins">{product.nombre}</p>
+          <p className="text-gray-600 text-xs line-clamp-1 font-poppins">{product.nombre}</p>
         </div>
 
-        <div className="mt-auto pt-4 font-poppins">
+        <div className="mt-auto pt-2 font-poppins">
           <div className="flex items-center justify-between">
-            <div className="flex flex-col items-start justify-start gap-1">
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-400 line-through">
+            <div className="flex flex-col items-start justify-start gap-0.5">
+              <div className="flex items-center gap-1">
+                <span className="text-xs text-gray-400 line-through">
                   G$ {formatGuarani(product.precio * 1.1)}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold text-gray-800">
+              <div className="flex items-center gap-1">
+                <span className="text-xl font-bold text-gray-800">
                   G$ {formatGuarani(product.precio)}
                 </span>
               </div>
-              <p className="text-sm text-orange-400">
+              <p className="text-xs text-orange-400">
                 {formatGuarani(product.precio * 0.95)}gs con Tarjeta
               </p>
             </div>
             <div className="flex items-end gap-2">
-              <button className="flex items-center justify-center gap-1 bg-orange-500 text-white px-3 py-2 rounded-full hover:bg-orange-600 transition-colors w-12">
-                <FiShoppingCart className="w-4 h-auto" />
+              <button className="flex items-center justify-center gap-1 bg-orange-500 text-white px-2.5 py-2 rounded-full hover:bg-orange-600 transition-colors w-10 h-10">
+                <FiShoppingCart className="w-4 h-4" />
               </button>
             </div>
           </div>

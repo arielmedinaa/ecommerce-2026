@@ -18,20 +18,22 @@ const AppLayout = ({ children }) => {
     <div className="flex h-screen">
       {/* <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} /> */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Topbar 
-          onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-          onCartClick={() => setIsCartOpen(true)}
-        />
-        <main className="w-full overflow-y-auto bg-slate-100">
+        <div className='absolute top-0 left-0 right-0 z-9999 bg-white/10 backdrop-blur-md'>
+          <Topbar
+            onMenuClick={() => setSidebarOpen(!sidebarOpen)}
+            onCartClick={() => setIsCartOpen(true)}
+          />
+        </div>
+        <main className="w-full overflow-y-auto">
           {children}
         </main>
       </div>
-      <CartSidebar 
+      <CartSidebar
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         onCheckout={handleCheckout}
       />
-      <ModalAuth 
+      <ModalAuth
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
       />

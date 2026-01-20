@@ -94,10 +94,10 @@ const Topbar = ({ onMenuClick, onCartClick }) => {
   return (
     <>
       <header 
-        className="sticky top-0 z-50 transition-all duration-300"
+        className="w-full border-none"
       >
         <div 
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-2 mb-2 shadow-sm rounded-full"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-2 mb-2 shadow-sm rounded-full bg-white"
         >
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
